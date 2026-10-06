@@ -1,0 +1,23 @@
+# Konfigurasi Netlify — situs statis, tanpa build step.
+# Semua file (index.html, journal.html, assets/) disajikan apa adanya dari root.
+
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Jangan cache HTML supaya perubahan langsung terlihat.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Aset aman di-cache lama karena isinya jarang berubah.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

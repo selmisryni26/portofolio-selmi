@@ -1,0 +1,13 @@
+# File catatan internal — tidak perlu ikut terbit ke publik
+README.md
+DEPLOY.md
+preview-fullpage.jpg
+preview-light.jpg
+preview-dark.jpg
+netlify.toml
+_headers
+
+# Folder CLI & arsip
+.netlify/
+.vercel/
+*.zip

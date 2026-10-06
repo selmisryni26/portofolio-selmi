@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>Selmi Suryani — Portfolio</title>
+<meta name="description" content="Portfolio of Selmi Suryani — Computer Engineering graduate from Universitas Teknologi Yogyakarta. Administration, data management, and design." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23F6F1E6'/><text y='70' x='50' font-size='54' font-family='Georgia,serif' font-weight='bold' fill='%23C0693C' text-anchor='middle'>S</text></svg>" />
+<script>
+/* Terapkan tema sebelum halaman digambar, supaya tidak berkedip.
+   Pilihan tersimpan di localStorage('theme'); tanpa pilihan -> ikut sistem. */
+(function () {
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  } catch (e) {}
+})();
+</script>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<header class="nav" id="nav">
+  <div class="nav__in">
+    <a href="#home" class="logo">
+      <span class="logo__mark">SS</span>
+      <span class="logo__txt">Selmi<span> Suryani</span></span>
+    </a>
+
+    <nav class="nav__links" id="navLinks">
+      <a href="#home" class="is-on">Home</a>
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="journal.html">Journal</a>
+    </nav>
+
+    <a href="#contact" class="nav__cta">Get in Touch <span aria-hidden="true">↗</span></a>
+
+    <button class="theme-btn" id="themeBtn" type="button"
+            aria-label="Switch to dark theme" title="Switch theme">
+      <span class="theme-btn__ic" aria-hidden="true">
+        <svg class="theme-btn__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/>
+        </svg>
+        <svg class="theme-btn__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/>
+        </svg>
+      </span>
+    </button>
+
+    <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="home">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <p class="hello">Hello, I'm —</p>
+
+      <h1 class="hero__title">Selmi Suryani</h1>
+
+      <p class="hero__role">
+        A Fresh Computer Engineering Graduate Focused on
+        <em>Administration, Data &amp; Design</em>
+      </p>
+
+      <p class="hero__lead">
+        A Bachelor's graduate in Computer Engineering from Universitas Teknologi Yogyakarta who is
+        organized and responsible, with skills in data management, document handling, and
+        administrative work.
+      </p>
+
+      <div class="hero__btns">
+        <a href="#projects" class="btn btn--solid">View Projects <span aria-hidden="true">→</span></a>
+        <a href="assets/Selmi-Suryani-Resume.pdf" download class="btn btn--soft">Download Resume <span aria-hidden="true">↓</span></a>
+      </div>
+
+      <div class="status">
+        <span class="status__dot" aria-hidden="true"></span>
+        Open to work opportunities
+      </div>
+    </div>
+
+    <div class="hero__media">
+      <div class="portrait">
+        <img src="assets/img/photo/portrait.jpg" alt="Selmi Suryani" />
+      </div>
+      <div class="float">
+        <b>2022<small>– 2026</small></b>
+        <span>Computer Engineering · UTY</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 01 ABOUT ══════════ -->
+<section class="sec" id="about">
+  <div class="wrap">
+    <article class="about">
+      <div class="about__photo">
+        <img src="assets/img/photo/portrait.jpg" alt="Selmi Suryani" />
+      </div>
+
+      <div class="about__body">
+        <p class="eyebrow">About Me —</p>
+        <h2 class="h2">Where Careful Work Meets <em>Clean Results</em></h2>
+
+        <p>
+          I am a fresh graduate in Computer Engineering from Universitas Teknologi Yogyakarta with
+          an interest in building a career in administration, data management, and design. I am able
+          to operate Microsoft Office, particularly Microsoft Word and Microsoft Excel, and I have a
+          strong interest in design.
+        </p>
+        <p>
+          I work with attention to detail and take care to keep data and documents well organized.
+          I am able to work both independently and in a team, adapt easily to new environments, and
+          am eager to keep learning and developing my abilities.
+        </p>
+
+        <a href="assets/Selmi-Suryani-Resume.pdf" download class="btn btn--soft">
+          Download Resume <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+
+      <ul class="about__stats">
+        <li>
+          <span class="ic ic--peach" aria-hidden="true">✦</span>
+          <div><b>3</b><span>Internships</span></div>
+        </li>
+        <li>
+          <span class="ic ic--blue" aria-hidden="true">◆</span>
+          <div><b>3×</b><span>Competition Wins</span></div>
+        </li>
+        <li>
+          <span class="ic ic--sage" aria-hidden="true">❖</span>
+          <div><b>9</b><span>Project Collections</span></div>
+        </li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════ 02 EDUCATION ══════════ -->
+<section class="sec sec--cream" id="education">
+  <div class="wrap">
+    <header class="head">
+      <p class="eyebrow">Education &amp; Achievements —</p>
+      <h2 class="h2">Academic Journey</h2>
+    </header>
+
+    <div class="edu">
+      <article class="card card--peach">
+        <span class="tag">Bachelor's · Computer Engineering</span>
+        <h3>Universitas Teknologi Yogyakarta</h3>
+        <p class="card__meta">2022 – 2026</p>
+        <p class="card__score"><b>3.79</b><span>/ 4.00</span></p>
+      </article>
+
+      <article class="card card--blue">
+        <span class="tag">Vocational High School · Multimedia</span>
+        <h3>SMK N 1 Wanareja</h3>
+        <p class="card__meta">2019 – 2022</p>
+        <p class="card__score"><b>89.64</b><span>/ 100.00</span></p>
+      </article>
+    </div>
+
+    <div class="awards">
+      <article class="card card--plain">
+        <span class="card__rank">1st Place</span>
+        <h4>Infographic</h4>
+        <p>“The Role of Students in the Digital Era”</p>
+        <span class="card__meta">FusionTech Challenge · 2025</span>
+      </article>
+      <article class="card card--plain">
+        <span class="card__rank">1st Place</span>
+        <h4>Internet of Things</h4>
+        <p>“IoT Innovation to Improve Community Welfare”</p>
+        <span class="card__meta">FusionTech Challenge · 2025</span>
+      </article>
+      <article class="card card--plain">
+        <span class="card__rank">3rd Place</span>
+        <h4>Infographic</h4>
+        <p>“Ratimaya Nusantara”</p>
+        <span class="card__meta">UTY Growpath × UKM Expo · 2024</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 03 EXPERIENCE ══════════ -->
+<section class="sec" id="experience">
+  <div class="wrap">
+    <header class="head head--center">
+      <p class="eyebrow">Experience —</p>
+      <h2 class="h2">Work, Organizations &amp; Activities</h2>
+    </header>
+
+    <div class="exp">
+      <article class="exp__item">
+        <div class="exp__mark">
+          <span class="ic ic--peach" aria-hidden="true">✈</span>
+        </div>
+        <div class="exp__body">
+          <div class="exp__top">
+            <h3>Perum LPPNPI (AirNav Indonesia)</h3>
+            <span class="tag">Internship · September 2026 – March 2027</span>
+          </div>
+          <p class="exp__date">Information Technology Division · Head Office, Tangerang</p>
+          <ul class="pts">
+            <li>Undertook an internship in the Information Technology division of Perum LPPNPI (AirNav Indonesia), the state-owned enterprise providing air navigation services in Indonesia.</li>
+            <li>Joined the Kemnaker 2026 apprenticeship onboarding programme at the AirNav Indonesia Head Office, covering the company profile, the working environment, and the scope of the IT division.</li>
+            <li>Developed and refined web pages — structuring pages, working with code, arranging layouts, adding components, and connecting the site to a database.</li>
+            <li>Prepared a workplan for the INMC dashboard by identifying the information to be presented: weather information, demand &amp; capacity, volcanic ash advisory, CNSD facility, safety occurrence, air space reservation, and special attention.</li>
+            <li>Checked functionality and adjusted pages step by step so the results matched the requirements.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="exp__item">
+        <div class="exp__mark">
+          <span class="ic ic--sage" aria-hidden="true">✎</span>
+        </div>
+        <div class="exp__body">
+          <div class="exp__top">
+            <h3>Accreditation Team, D3 Information Systems Study Program</h3>
+            <span class="tag">Campus Activity · 2026</span>
+          </div>
+          <ul class="pts">
+            <li>Supported the accreditation process by processing, verifying, and organizing administrative data and documents.</li>
+            <li>Ensured documents were complete, accurate, and well organized according to accreditation requirements.</li>
+            <li>Helped archive documents in a structured manner to make data search and verification easier.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="exp__item">
+        <div class="exp__mark">
+          <span class="ic ic--blue" aria-hidden="true">⌘</span>
+        </div>
+        <div class="exp__body">
+          <div class="exp__top">
+            <h3>Public Works and Spatial Planning Department, Kebumen Regency</h3>
+            <span class="tag">Internship · July – August 2025</span>
+          </div>
+          <ul class="pts">
+            <li>Designed and developed an Internet of Things (IoT)-based <b>Structural Health Monitoring System (SHMS)</b> to monitor bridge structural conditions.</li>
+            <li>Integrated <b>MPU6050</b> and <b>Load Cell</b> sensors with <b>ESP32</b> and developed programs for data acquisition, processing, and transmission using <b>Arduino IDE</b>.</li>
+            <li>Performed testing, processing, and analysis of sensor data to evaluate the response and condition of the bridge structure.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="exp__item">
+        <div class="exp__mark">
+          <span class="ic ic--peach" aria-hidden="true">◐</span>
+        </div>
+        <div class="exp__body">
+          <div class="exp__top">
+            <h3>Computer Engineering Student Association</h3>
+            <span class="tag">Staff, Information &amp; Communication Division · 2024 – 2025</span>
+          </div>
+          <ul class="pts">
+            <li><b>Personal Branding with LinkedIn and CV Workshop (2024):</b> Served on the committee managing publication and documentation needs by creating publication content and capturing photos and videos.</li>
+            <li><b>Community Service (2024):</b> Served on the committee for a technology-sharing event titled “Solar Panel Utilization for Fish Pond Lighting and an SMS-Based Security and Water Level Warning System”, supporting the event through publication and documentation management.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="exp__item">
+        <div class="exp__mark">
+          <span class="ic ic--blue" aria-hidden="true">◈</span>
+        </div>
+        <div class="exp__body">
+          <div class="exp__top">
+            <h3>Industrial Visit</h3>
+            <span class="tag">Campus Activity · 2024</span>
+          </div>
+          <ul class="pts">
+            <li>Industrial visit to the Ministry of Communication and Information Technology (Kominfo) &amp; PT KAO Indonesia — Jakarta and Bandung.</li>
+            <li>Participated to learn directly about technology implementation, work processes, and the working environment.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="exp__item">
+        <div class="exp__mark">
+          <span class="ic ic--sage" aria-hidden="true">◔</span>
+        </div>
+        <div class="exp__body">
+          <div class="exp__top">
+            <h3>Islamic Student Association</h3>
+            <span class="tag">Staff, Media &amp; Public Relations Division · 2023 – 2024</span>
+          </div>
+          <ul class="pts">
+            <li>Managed the organization's social media by creating and scheduling content to communicate activity information to members and students.</li>
+            <li>Documented activities and processed photos and videos as publication and archive materials for the organization.</li>
+            <li><b>AAI (Islamic Religious Assistance) UTY (2023):</b> Served on the committee responsible for documenting activities through photos and videos.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="exp__item">
+        <div class="exp__mark">
+          <span class="ic ic--peach" aria-hidden="true">◑</span>
+        </div>
+        <div class="exp__body">
+          <div class="exp__top">
+            <h3>Cokro Digital Printing</h3>
+            <span class="tag">Internship · May – November 2021</span>
+          </div>
+          <ul class="pts">
+            <li>Processed and adjusted designs to match customer sizes, formats, and requirements before printing.</li>
+            <li>Helped serve and process customer orders, from receiving files and determining print specifications to preparing the printed output.</li>
+            <li>Assisted with the finishing process and checked print quality to ensure it matched the order.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 04 SKILLS ══════════ -->
+<section class="sec sec--cream" id="skills">
+  <div class="wrap">
+    <header class="head head--center">
+      <p class="eyebrow">Skills &amp; Abilities —</p>
+      <h2 class="h2">What I Do Best</h2>
+    </header>
+
+    <div class="skills">
+      <article class="card card--peach skills__card">
+        <span class="ic ic--peach" aria-hidden="true">✦</span>
+        <h3>Administration</h3>
+        <ul class="tags">
+          <li>Microsoft Word</li><li>Microsoft Excel</li><li>Power Point</li>
+          <li>Data Processing</li><li>Document Management</li><li>Records Archiving</li>
+        </ul>
+      </article>
+
+      <article class="card card--sage skills__card">
+        <span class="ic ic--sage" aria-hidden="true">✎</span>
+        <h3>Design &amp; Editing</h3>
+        <ul class="tags">
+          <li>Canva</li><li>Picsart</li><li>Lightroom</li><li>Capcut</li><li>Ibispaint</li>
+        </ul>
+      </article>
+
+      <article class="card card--blue skills__card">
+        <span class="ic ic--blue" aria-hidden="true">⌘</span>
+        <h3>UI/UX &amp; Programming</h3>
+        <ul class="tags">
+          <li>Figma</li><li>Android Studio</li><li>Arduino IDE</li><li>Visual Studio Code</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="soft">
+      <p class="eyebrow">Soft Skills</p>
+      <ul class="soft__list">
+        <li>Teamwork</li>
+        <li>Time Management</li>
+        <li>Adaptability</li>
+        <li>Problem Solving</li>
+        <li>Attention to Detail</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 05 PROJECTS ══════════ -->
+<section class="sec" id="projects">
+  <div class="wrap">
+    <header class="head">
+      <p class="eyebrow">Featured Work —</p>
+      <h2 class="h2">Project Portfolio</h2>
+    </header>
+
+    <div class="bar reveal" id="bar">
+      <button class="bar__btn is-on" data-f="all">All</button>
+      <button class="bar__btn" data-f="design">Graphic Design</button>
+      <button class="bar__btn" data-f="media">Social Media</button>
+      <button class="bar__btn" data-f="photo">Photography</button>
+      <button class="bar__btn" data-f="uiux">UI/UX</button>
+      <button class="bar__btn" data-f="admin">Administration</button>
+      <button class="bar__btn" data-f="capstone">Capstone</button>
+      <button class="bar__btn" data-f="iot">IoT</button>
+    </div>
+
+    <article class="proj reveal" data-cat="design">
+      <header class="proj__head">
+        <div>
+          <h3>Infographic Posters</h3>
+          <p class="proj__meta">Infographic · 2024 – 2025</p>
+        </div>
+        <p class="proj__desc">Educational infographics for coursework and competitions — covering IoT systems, culinary topics, and personal data security awareness.</p>
+      </header>
+      <div class="gal gal--4">
+        <figure class="shot"><img src="assets/img/projects/infografis-1.jpg" alt="Sweet Escape Sago Dessert infographic" loading="lazy"><figcaption>Sweet Escape — Sago Dessert</figcaption></figure>
+        <figure class="shot"><img src="assets/img/projects/infografis-2.jpg" alt="IoT-based Aquarium Monitoring and Treatment System infographic" loading="lazy"><figcaption>Aquarium Monitoring IoT</figcaption></figure>
+        <figure class="shot"><img src="assets/img/projects/infografis-3.jpg" alt="Bengkoang Benefits infographic" loading="lazy"><figcaption>Bengkoang Benefits</figcaption></figure>
+        <figure class="shot"><img src="assets/img/projects/infografis-4.jpg" alt="Personal Data Security infographic" loading="lazy"><figcaption>Personal Data Security</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="proj reveal" data-cat="design">
+      <header class="proj__head">
+        <div>
+          <h3>Stickers, ID Cards, Certificates &amp; X-Banners</h3>
+          <p class="proj__meta">Print Design · 2024 – 2025</p>
+        </div>
+        <p class="proj__desc">Print materials designed for organizational needs — award certificates, committee ID cards, and X-banners for event publication.</p>
+      </header>
+      <div class="gal gal--3 gal--paper">
+        <figure class="shot"><img src="assets/img/projects/branding-1.jpg" alt="Award certificate issued to Selmi Suryani as a PENGMAS committee member" loading="lazy"><figcaption>Award Certificate</figcaption></figure>
+        <figure class="shot"><img src="assets/img/projects/branding-2.jpg" alt="Committee ID card design for PDD issued to Selmi Suryani" loading="lazy"><figcaption>Committee ID Card</figcaption></figure>
+        <figure class="shot"><img src="assets/img/projects/branding-3.jpg" alt="PENGMAS HIMTEK 2024/2025 identity design for Dusun Macanan" loading="lazy"><figcaption>Sticker</figcaption></figure>
+      </div>
+      <div class="gal gal--2 gal--tall">
+        <figure class="shot"><img src="assets/img/projects/branding-4.jpg" alt="X-banner for the IoT-based Aquarium Monitoring and Treatment System" loading="lazy"><figcaption>X-Banner — Capstone Project</figcaption></figure>
+        <figure class="shot"><img src="assets/img/projects/branding-5.jpg" alt="X-banner for the Capstone Project building structure design" loading="lazy"><figcaption>X-Banner Capstone Project</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="proj reveal" data-cat="media">
+      <header class="proj__head">
+        <div>
+          <h3>Instagram Feed</h3>
+          <p class="proj__meta">Social Media · 2024</p>
+        </div>
+        <p class="proj__desc">Social media publication content for the organization, campus activity documentation, and themed content creation.</p>
+      </header>
+      <div class="gal gal--2 gal--wide">
+        <figure class="shot"><img src="assets/img/projects/feedig-1.jpg" alt="Association Instagram content — activity documentation" loading="lazy"><figcaption>Association Instagram Content</figcaption></figure>
+        <figure class="shot"><img src="assets/img/projects/feedig-4.jpg" alt="Association Instagram content — activity publication" loading="lazy"><figcaption>Association Instagram Content</figcaption></figure>
+        <figure class="shot"><img src="assets/img/projects/feedig-3.jpg" alt="Instagram themed content about cookies" loading="lazy"><figcaption>Themed Content — Cookies</figcaption></figure>
+        <figure class="shot"><img src="assets/img/projects/feedig-2.jpg" alt="Instagram themed content in green" loading="lazy"><figcaption>Themed Content — Green</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="proj reveal" data-cat="photo">
+      <header class="proj__head">
+        <div>
+          <h3>Photography</h3>
+          <p class="proj__meta">Photography · 2024</p>
+        </div>
+        <p class="proj__desc">Exploring landscape and everyday-detail photography — sharpening sensitivity to composition, color, and light.</p>
+      </header>
+      <div class="gal gal--3 gal--photo">
+        <figure class="shot"><img src="assets/img/projects/fotografi-1.jpg" alt="Photograph of trees" loading="lazy"></figure>
+        <figure class="shot"><img src="assets/img/projects/fotografi-2.jpg" alt="Photograph of purple flowers" loading="lazy"></figure>
+        <figure class="shot"><img src="assets/img/projects/fotografi-3.jpg" alt="Photograph of a Ferris wheel" loading="lazy"></figure>
+      </div>
+      <div class="gal gal--2 gal--photo-pair">
+        <figure class="shot"><img src="assets/img/projects/fotografi-4.jpg" alt="Photograph of a night market" loading="lazy"></figure>
+        <figure class="shot"><img src="assets/img/projects/fotografi-5.jpg" alt="Photograph of an aquarium" loading="lazy"></figure>
+      </div>
+    </article>
+
+    <article class="proj reveal" data-cat="uiux">
+      <header class="proj__head">
+        <div>
+          <h3>UI Design</h3>
+          <p class="proj__meta">UI/UX · 2025</p>
+        </div>
+        <p class="proj__desc">Designing the interface for an IoT-based aquarium monitoring &amp; treatment app — home screen, monitoring charts, and feeding schedules.</p>
+      </header>
+      <div class="gal gal--3 gal--phone">
+        <figure class="shot"><span class="phone"><img src="assets/img/projects/ui-1.jpg" alt="UI mockup of the Home screen" loading="lazy"></span><figcaption>Home</figcaption></figure>
+        <figure class="shot"><span class="phone"><img src="assets/img/projects/ui-2.jpg" alt="UI mockup of the Charts screen" loading="lazy"></span><figcaption>Monitoring Charts</figcaption></figure>
+        <figure class="shot"><span class="phone"><img src="assets/img/projects/ui-3.jpg" alt="UI mockup of the Feeding Schedule screen" loading="lazy"></span><figcaption>Feeding Schedule</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="proj reveal" data-cat="admin">
+      <header class="proj__head">
+        <div>
+          <h3>Accreditation</h3>
+          <p class="proj__meta">Administration · 2026</p>
+        </div>
+        <p class="proj__desc">Processing, verifying, and organizing administrative data and documents to support the accreditation of the D3 Information Systems Study Program.</p>
+      </header>
+      <div class="gal gal--3 gal--paper">
+        <figure class="shot"><img src="assets/img/projects/akreditasi-1.jpg" alt="Accreditation score recap for study programs" loading="lazy"><figcaption>Accreditation Score Recap</figcaption></figure>
+        <figure class="shot"><img src="assets/img/projects/akreditasi-2.jpg" alt="Study program data processing for accreditation" loading="lazy"><figcaption>Study Program Data Processing</figcaption></figure>
+        <figure class="shot"><img src="assets/img/projects/akreditasi-3.jpg" alt="Accreditation documents" loading="lazy"><figcaption>Accreditation Documents</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="proj reveal" data-cat="capstone">
+      <header class="proj__head">
+        <div>
+          <h3>Capstone Project — Aquarium Monitoring &amp; Treatment</h3>
+          <p class="proj__meta">Capstone Project · 2024</p>
+        </div>
+        <div>
+          <p class="proj__formal">Aquarium Monitoring and Treatment System Based on the Internet of Things (IoT)</p>
+          <p class="proj__desc">Designing an IoT-based aquarium monitoring and treatment system — system functionality covers water temperature and turbidity monitoring, along with water condition control, all monitored through the Blynk app.</p>
+        </div>
+      </header>
+
+      <div class="gal gal--strip">
+        <figure class="shot">
+          <img src="assets/img/projects/capstone-photo-1.jpg" alt="ESP32 microcontroller board with an LCD display" loading="lazy">
+          <span class="shot__open" aria-hidden="true">↗</span>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/projects/capstone-photo-2.jpg" alt="Four-channel relay module wiring" loading="lazy">
+          <span class="shot__open" aria-hidden="true">↗</span>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/projects/capstone-photo-3.jpg" alt="Aquarium prototype with water tank and pump setup" loading="lazy">
+          <span class="shot__open" aria-hidden="true">↗</span>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/projects/capstone-photo-4.jpg" alt="Blynk dashboard showing temperature and turbidity readings" loading="lazy">
+          <span class="shot__open" aria-hidden="true">↗</span>
+        </figure>
+      </div>
+    </article>
+
+    <article class="proj reveal" data-cat="iot">
+      <header class="proj__head">
+        <div>
+          <h3>Internship — IoT-Based Bridge SHMS</h3>
+          <p class="proj__meta">Internship · 2025</p>
+        </div>
+        <div>
+          <p class="proj__formal">Structural Health Monitoring System for Bridges Based on the Internet of Things (IoT)</p>
+          <p class="proj__desc">A Structural Health Monitoring System that monitors bridge structural conditions in real time using accelerometer and load cell sensors, developed during an internship at the Public Works and Spatial Planning Department of Kebumen Regency.</p>
+        </div>
+      </header>
+
+      <div class="gal gal--strip">
+        <figure class="shot">
+          <img src="assets/img/projects/internship-photo-1.jpg" alt="SHMS prototype with LCD, breadboard and sensor wiring" loading="lazy">
+          <span class="shot__open" aria-hidden="true">↗</span>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/projects/internship-photo-2.jpg" alt="KerjaPraktik dashboard showing gyroscope and accelerometer charts with load cell readings" loading="lazy">
+          <span class="shot__open" aria-hidden="true">↗</span>
+        </figure>
+      </div>
+    </article>
+
+    <article class="proj reveal" data-cat="iot">
+      <header class="proj__head">
+        <div>
+          <h3>Final Project — Aquarium Monitoring &amp; Control System</h3>
+          <p class="proj__meta">Final Project · 2026</p>
+        </div>
+        <div>
+          <p class="proj__formal">Design and Development of a Water Quality Monitoring and Control System with Automatic Fish Feeding for Aquariums Based on a Mobile Application</p>
+          <p class="proj__desc">An automatic fish feeding device with IoT-based water quality monitoring, integrated with an Android app for monitoring and both automatic and manual control.</p>
+        </div>
+      </header>
+
+      <div class="gal gal--strip">
+        <figure class="shot">
+          <img src="assets/img/projects/final-photo-1.jpg" alt="Assembled aquarium device with relay board, sensors and water pump" loading="lazy">
+          <span class="shot__open" aria-hidden="true">↗</span>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/projects/final-photo-2.jpg" alt="Realtime Database structure on Firebase: control, history, jadwal, sensor, servo" loading="lazy">
+          <span class="shot__open" aria-hidden="true">↗</span>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/projects/final-photo-3.jpg" alt="App Home screen with real-time monitoring and manual controls" loading="lazy">
+          <span class="shot__open" aria-hidden="true">↗</span>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/projects/final-photo-4.jpg" alt="App Monitoring Charts screen with water temperature and turbidity graphs" loading="lazy">
+          <span class="shot__open" aria-hidden="true">↗</span>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/projects/final-photo-5.jpg" alt="App Feeding Schedule screen with daily schedule and servo settings" loading="lazy">
+          <span class="shot__open" aria-hidden="true">↗</span>
+        </figure>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════ 06 CONTACT ══════════ -->
+<section class="sec sec--cta" id="contact">
+  <div class="wrap">
+    <article class="cta">
+      <div class="cta__text">
+        <p class="eyebrow">Let's Work Together —</p>
+        <h2 class="h2">Have a Project or an Opportunity?</h2>
+        <p class="cta__lead">
+          I'm open to opportunities in administration, data management, and design.
+          Feel free to reach out.
+        </p>
+        <div class="cta__btns">
+          <a href="mailto:selmisuryani29@gmail.com" class="btn btn--solid">Send Email <span aria-hidden="true">→</span></a>
+          <a href="assets/Selmi-Suryani-Resume.pdf" download class="btn btn--soft">Download Resume</a>
+        </div>
+      </div>
+
+      <ul class="cta__list">
+        <li>
+          <span class="ic ic--peach" aria-hidden="true">✉</span>
+          <div><span class="cta__k">Email</span>
+            <a href="mailto:selmisuryani29@gmail.com">selmisuryani29@gmail.com</a></div>
+        </li>
+        <li>
+          <span class="ic ic--blue" aria-hidden="true">☎</span>
+          <div><span class="cta__k">Phone</span>
+            <a href="tel:+628****8903">081226068903</a></div>
+        </li>
+        <li>
+          <span class="ic ic--sage" aria-hidden="true">⌂</span>
+          <div><span class="cta__k">Location</span>
+            <span>Madura Village, Wanareja District, Cilacap Regency</span></div>
+        </li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div class="foot__brand">
+      <span class="logo__mark">SS</span>
+      <div>
+        <b>Selmi Suryani</b>
+        <i>Portfolio 2026</i>
+      </div>
+    </div>
+    <ul class="foot__nav">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="journal.html">Journal</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <span class="foot__cp">© <span id="year">2026</span> Selmi Suryani</span>
+  </div>
+</footer>
+
+<!-- Lightbox -->
+<div class="lb" id="lightbox" aria-hidden="true">
+  <button class="lb__close" id="lbClose" aria-label="Close">&times;</button>
+  <button class="lb__prev" id="lbPrev" aria-label="Previous">&#8249;</button>
+  <img class="lb__img" id="lbImg" alt="" />
+  <button class="lb__next" id="lbNext" aria-label="Next">&#8250;</button>
+  <p class="lb__cap" id="lbCap"></p>
+</div>
+
+<script>document.documentElement.className += ' js';</script>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

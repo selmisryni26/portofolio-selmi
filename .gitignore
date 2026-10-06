@@ -1,0 +1,15 @@
+# Netlify CLI
+.netlify/
+
+# Vercel CLI
+.vercel/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Arsip lokal
+*.zip
+
+# Pratinjau internal
+preview-*.jpg
