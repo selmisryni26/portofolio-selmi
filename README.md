@@ -3,6 +3,23 @@
 Situs portofolio statis (HTML + CSS + JS, tanpa build step).
 Seluruh isi website berbahasa Inggris (`<html lang="en">`).
 
+## 🌐 Link publik
+
+**https://selmisryni26.github.io/portofolio-selmi/**
+
+Diterbitkan lewat GitHub Pages dari repo:
+https://github.com/selmisryni26/portofolio-selmi (branch `main`, folder root `/`)
+
+Setiap kali ada perubahan, cukup commit lalu push — GitHub Pages membangun
+ulang otomatis dalam 1–2 menit:
+
+```bash
+cd "Web Portofolio Selmi"
+git add -A
+git commit -m "perbarui isi portofolio"
+git push
+```
+
 ## Deploy ke internet
 
 Lihat **`DEPLOY.md`** — panduan lengkap menjadikan situs link publik gratis
