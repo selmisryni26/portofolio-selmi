@@ -40,13 +40,17 @@ python -m http.server 8742
 ```
 index.html                 # halaman portofolio (one-page)
 journal.html               # halaman Journal (terpisah)
-preview-fullpage.jpg       # pratinjau seluruh halaman
+certificate.html           # halaman Certificate (25 sertifikat + filter)
 assets/
   css/style.css            # design system + layout
   js/main.js               # nav, scroll-spy, reveal, filter proyek, lightbox
   js/journal.js            # tab bulan di halaman Journal
+  js/certificate.js        # nav + filter jenis di halaman Certificate
+  js/theme.js              # tombol mode terang/gelap (semua halaman)
   Selmi-Suryani-Resume.pdf # tombol "Download Resume"
   docs/                    # 3 laporan lengkap (PDF)
+  docs/certificates/       # 25 berkas sertifikat asli (PDF/JPG)
+  img/certificates/        # 25 thumbnail sertifikat
   img/projects/            # 24 gambar proyek + 12 halaman laporan (capstone/kp/ta)
   img/photo/
     portrait.jpg           # foto hero + kartu Tentang (4:5, dari foto outdoor)
