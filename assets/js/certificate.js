@@ -47,32 +47,49 @@
     reveals.forEach(function (el) { el.classList.add('is-in'); });
   }
 
-  /* ── Filter jenis sertifikat ─────────────────────── */
-  var bar = document.getElementById('cbar');
-  var items = [].slice.call(document.querySelectorAll('.cert'));
+  /* ── Filter jenis sertifikat ─────────────────────────
+     Sengaja tidak memakai event delegation dan tidak bergantung pada
+     kelas CSS: tampil/sembunyi diatur langsung lewat style.display,
+     supaya tetap bekerja walau berkas CSS masih versi lama (cache). */
+  function initFilter() {
+    var bar = document.getElementById('cbar');
+    var items = [].slice.call(document.querySelectorAll('.cert'));
+    if (!bar || !items.length) return;
 
-  if (bar) {
-    bar.addEventListener('click', function (e) {
-      var btn = e.target.closest('.bar__btn');
-      if (!btn) return;
+    var btns = [].slice.call(bar.querySelectorAll('.bar__btn'));
 
-      var f = btn.dataset.f;
-      bar.querySelectorAll('.bar__btn').forEach(function (b) {
-        b.classList.toggle('is-on', b === btn);
-        b.setAttribute('aria-pressed', String(b === btn));
-      });
-
+    function apply(f) {
       items.forEach(function (c) {
         var show = (f === 'all') || (c.dataset.cat === f);
         c.classList.toggle('is-hidden', !show);
+        c.style.display = show ? '' : 'none';
         if (show) c.classList.add('is-in');
       });
 
-      // perbarui jumlah yang tampil
-      var shown = items.filter(function (c) { return !c.classList.contains('is-hidden'); }).length;
+      btns.forEach(function (b) {
+        var on = (b.dataset.f === f);
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+
+      var shown = items.filter(function (c) { return c.style.display !== 'none'; }).length;
       var cnt = document.querySelector('.js-count');
       if (cnt) cnt.textContent = String(shown);
+    }
+
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.classList.contains('is-on')));
+      b.addEventListener('click', function (e) {
+        if (e && e.preventDefault) e.preventDefault();
+        apply(b.dataset.f);
+      });
     });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFilter);
+  } else {
+    initFilter();
   }
 
   /* ── Tahun di footer ────────────────────────────── */

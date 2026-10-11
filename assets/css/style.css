@@ -476,8 +476,8 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 .page-cert .nav{padding:10px 0;}
 
 .certs{
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(248px,1fr));
-  gap:20px;
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:22px;
 }
 .cert{
   display:flex; flex-direction:column; overflow:hidden;
