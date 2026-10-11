@@ -329,7 +329,7 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 }
 .card__score span{font-size:.82rem; color:var(--ink-3);}
 
-.awards{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px;}
+.awards{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px;}
 .card--plain{display:flex; flex-direction:column; gap:6px; padding:22px 24px;}
 .card__rank{
   font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
