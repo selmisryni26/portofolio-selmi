@@ -403,9 +403,9 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 .gal--photo{grid-template-columns:repeat(3,1fr);}
 .gal--photo:first-of-type{margin-bottom:14px;}
 .gal--photo .shot img{aspect-ratio:16/9; object-fit:cover;}
-.gal--photo-pair{grid-template-columns:repeat(2,minmax(0,1fr)); max-width:640px; margin-inline:auto;}
+.gal--photo-pair{grid-template-columns:repeat(2,minmax(0,1fr)); max-width:420px; margin-inline:auto;}
 .gal--photo-pair .shot img{aspect-ratio:9/16; object-fit:cover;}
-.gal--phone{max-width:680px; gap:18px;}
+.gal--phone{max-width:460px; gap:18px;}
 
 /* ── Formal report titles (projects without a gallery) ── */
 .proj__formal{
