@@ -121,7 +121,6 @@ button{font-family:inherit;}
   content:''; position:absolute; left:2px; top:.64em; width:6px; height:6px;
   border-radius:50%; background:var(--terra); opacity:.7;
 }
-.pts b{color:var(--ink); font-weight:600;}
 
 /* ── Icon chips ──────────────────────────────────── */
 .ic{
@@ -539,7 +538,6 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
   margin-top:22px !important; padding:18px 22px; border-radius:var(--r-sm);
   background:var(--cream); border-left:3px solid var(--terra);
 }
-.jentry__take b{color:var(--ink); font-weight:600;}
 
 /* ══════════ CONTACT ══════════ */
 .sec--cta{padding-bottom:clamp(60px,10vh,104px);}
