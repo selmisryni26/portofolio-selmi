@@ -312,6 +312,16 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
   font-size:clamp(1.06rem,2.2vw,1.3rem); margin:0 0 4px;
 }
 .card__meta{font-size:.82rem; color:var(--ink-3); margin:0;}
+
+/* Tautan sertifikat di dalam kartu penghargaan */
+.card__link{
+  margin-top:auto; align-self:flex-start;
+  display:inline-flex; align-items:center; gap:7px;
+  font-size:.78rem; font-weight:600; color:var(--ink-3);
+  padding:6px 14px; border-radius:100px; border:1px solid var(--line-2);
+  background:var(--white); transition:.22s;
+}
+.card__link:hover{border-color:var(--terra); color:var(--terra);}
 .card__score{display:flex; align-items:baseline; gap:6px; margin:14px 0 0;}
 .card__score b{
   font-family:var(--serif); font-weight:700; font-size:1.7rem;
@@ -319,7 +329,7 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 }
 .card__score span{font-size:.82rem; color:var(--ink-3);}
 
-.awards{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+.awards{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px;}
 .card--plain{display:flex; flex-direction:column; gap:6px; padding:22px 24px;}
 .card__rank{
   font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
