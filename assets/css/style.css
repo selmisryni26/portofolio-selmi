@@ -216,8 +216,8 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 /* ══════════ HERO ══════════ */
 .hero{padding:clamp(120px,17vh,168px) 0 clamp(56px,9vh,90px);}
 .hero__grid{
-  display:grid; grid-template-columns:1.05fr .95fr;
-  gap:clamp(28px,5vw,64px); align-items:center;
+  display:grid; grid-template-columns:1fr;
+  align-items:center;
 }
 .hello{
   display:inline-block; position:relative; font-size:.8rem; font-weight:700;
@@ -249,13 +249,6 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
   box-shadow:0 0 0 4px var(--ok-dot);
 }
 
-.hero__media{position:relative; display:flex; justify-content:center;}
-.portrait{
-  width:min(100%,358px); aspect-ratio:4/5; border-radius:var(--r); overflow:hidden;
-  background:var(--peach);
-}
-.portrait img{width:100%; height:100%; object-fit:cover; object-position:50% 20%;}
-
 /* ══════════ SECTIONS ══════════ */
 .sec{padding:clamp(54px,9vh,96px) 0;}
 .sec--cream{background:var(--cream-2); border-block:1px solid var(--line);}
@@ -281,14 +274,9 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 
 /* ══════════ ABOUT ══════════ */
 .about{
-  display:grid; grid-template-columns:230px 1fr 210px; gap:clamp(22px,3.5vw,44px);
+  display:grid; grid-template-columns:1fr 210px; gap:clamp(22px,3.5vw,44px);
   align-items:start;
 }
-.about__photo{
-  border-radius:var(--r); overflow:hidden; aspect-ratio:4/5; background:var(--peach);
-  position:sticky; top:100px;
-}
-.about__photo img{width:100%; height:100%; object-fit:cover; object-position:50% 22%;}
 .about__body p{color:var(--ink-2); margin:0 0 15px;}
 .about__body p:last-of-type{margin-bottom:0;}
 .about__body .h2{margin-bottom:18px;}
@@ -657,9 +645,7 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 
 /* ══════════ RESPONSIVE ══════════ */
 @media (max-width:1080px){
-  .about{grid-template-columns:200px 1fr;}
   .about__stats{grid-column:1/-1; grid-template-columns:repeat(3,1fr);}
-  .about__photo{position:static;}
   .skills{grid-template-columns:repeat(2,1fr);}
   .gal--4{grid-template-columns:repeat(2,1fr);}
   .cta{grid-template-columns:1fr;}
@@ -675,9 +661,7 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 }
 @media (max-width:880px){
   .hero__grid{grid-template-columns:1fr; gap:34px;}
-  .hero__media{order:-1; justify-content:flex-start;}
-  .portrait{width:min(100%,280px);}
-  .about{grid-template-columns:1fr;}
+    .about{grid-template-columns:1fr;}
   .about__stats{grid-template-columns:1fr;}
   .edu,.awards{grid-template-columns:1fr;}
   .skills{grid-template-columns:1fr;}
