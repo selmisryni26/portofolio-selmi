@@ -552,6 +552,46 @@
         </div>
       </header>
 
+      <div class="proj__brief">
+        <div class="proj__col">
+          <p class="proj__label">How it works</p>
+          <ul class="proj__specs">
+            <li>A DS18B20 probe reads water temperature and a turbidity sensor reads water clarity; an ESP32 sends both to Firebase Realtime Database, where an Android app shows them live</li>
+            <li>Temperature is held between 25 and 27 &deg;C &mdash; below 25 &deg;C the heater switches on, above 27 &deg;C it stops and a pump starts</li>
+            <li>Above 10 NTU the system changes the water: one pump drains for two minutes, then a second refills for two minutes</li>
+            <li>Feeding runs three times a day &mdash; 08:00, 13:00 and 17:00 &mdash; with the servo turning 90&deg; for five seconds, and can also be triggered by hand from the app</li>
+          </ul>
+
+          <p class="proj__label">App</p>
+          <p class="proj__text">Three screens built in Android Studio: Home, Monitoring Charts and Feeding Schedule &mdash; with an AUTO or MANUAL mode and manual buttons for the pumps, the heater and feeding.</p>
+
+          <p class="proj__label">Supervisor</p>
+          <p class="proj__text">Dr.Eng. Arif Pramudwiatmoko, S.T., M.Eng. &mdash; Computer Engineering, Universitas Teknologi Yogyakarta. Defended 1 July 2026.</p>
+        </div>
+
+        <div class="proj__col">
+          <p class="proj__label">Tools &amp; materials</p>
+          <ul class="proj__specs">
+            <li>ESP32 microcontroller (Wi-Fi, 48 GPIO)</li>
+            <li>DS18B20 water temperature sensor (&plusmn;0.5%, 1-Wire) and a turbidity sensor (optical, 0&ndash;1000 NTU)</li>
+            <li>Two 12 V DC submersible pumps (&plusmn;800&ndash;1500 L/h) for draining and refilling</li>
+            <li>Aquarium heater (25 W), servo motor (0&ndash;180&deg;, PWM) for the feeder, relay module and 5 V adapter</li>
+            <li>Mechanical sponge filter (250 L/h) and a 40 &times; 25 &times; 25 cm aquarium</li>
+          </ul>
+
+          <p class="proj__label">Wiring</p>
+          <p class="proj__text">DS18B20 &rarr; GPIO 14 &middot; turbidity &rarr; GPIO 34 &middot; heater relay &rarr; GPIO 4 &middot; pump relays &rarr; GPIO 18 and GPIO 5 &middot; servo &rarr; GPIO 26.</p>
+
+          <p class="proj__label">Software</p>
+          <ul class="proj__specs">
+            <li>Arduino IDE (C/C++), Firebase Realtime Database and Android Studio</li>
+          </ul>
+
+          <p class="proj__label">Result</p>
+          <p class="proj__text">The DS18B20 held an average error of 3.32% &mdash; 96.68% accuracy. The turbidity sensor separated clear, cloudy and dirty water and ran the pumps automatically on the cloudy and dirty readings. The servo fed on all three daily schedules at a 90&deg; turn for five seconds, temperature and turbidity appeared in the app in real time, every manual command was executed, and history logged every minute rendered as charts.</p>
+        </div>
+      </div>
+
       <div class="gal gal--strip">
         <figure class="shot">
           <img src="assets/img/projects/final-photo-1.jpg" alt="Assembled aquarium device with relay board, sensors and water pump" loading="lazy">
