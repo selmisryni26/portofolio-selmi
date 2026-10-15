@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>Source Code — Aquarium Monitoring &amp; Control · Selmi Suryani</title>
+<meta name="description" content="ESP32 firmware for the IoT aquarium final project — reading water temperature and turbidity, driving the water pumps, heater and automatic fish feeder, and syncing with Firebase Realtime Database." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23F6F1E6'/><text y='70' x='50' font-size='54' font-family='Georgia,serif' font-weight='bold' fill='%23C0693C' text-anchor='middle'>S</text></svg>" />
+<script>
+/* Terapkan tema sebelum halaman digambar, supaya tidak berkedip. */
+(function () {
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  } catch (e) {}
+})();
+</script>
+</head>
+<body class="page-journal">
+
+<header class="nav is-stuck" id="nav">
+  <div class="nav__in">
+    <a href="index.html" class="logo">
+      <span class="logo__mark">SS</span>
+      <span class="logo__txt">Selmi<span> Suryani</span></span>
+    </a>
+    <nav class="nav__links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#education">Education</a>
+      <a href="journal.html">Journal</a>
+      <a href="certificate.html">Certificate</a>
+    </nav>
+    <a href="index.html#contact" class="nav__cta">Get in Touch <span aria-hidden="true">&#8599;</span></a>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch to dark theme" title="Switch theme">
+      <span class="theme-btn__ic" aria-hidden="true">
+        <svg class="theme-btn__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/>
+        </svg>
+        <svg class="theme-btn__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/>
+        </svg>
+      </span>
+    </button>
+    <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<section class="jhead">
+  <div class="wrap">
+    <a href="index.html#projects" class="backlink">
+      <span aria-hidden="true">&#8592;</span> Back to portfolio
+    </a>
+    <p class="eyebrow">Source Code &mdash;</p>
+    <h1 class="jhead__title">Aquarium Monitoring and Control System</h1>
+    <p class="jhead__lead">
+      ESP32 firmware for the final project &mdash; reading water temperature and turbidity,
+      driving the pumps, heater and automatic feeder, and syncing with Firebase.
+    </p>
+  </div>
+</section>
+
+<section class="sec sec--cream">
+  <div class="wrap">
+    <div class="code">
+      <div class="code__head">
+        <span class="code__name">terakhirrr.ino &middot; ESP32 / Arduino IDE</span>
+        <a class="code__dl" href="assets/code/aquarium-final-esp32.ino" download>Download .ino <span aria-hidden="true">&#8599;</span></a>
+      </div>
+      <pre><code>#include &lt;OneWire.h&gt;
+#include &lt;DallasTemperature.h&gt;
+#include &lt;ESP32Servo.h&gt;
+#include &lt;WiFi.h&gt;
+#include &lt;time.h&gt;
+#include &lt;Firebase_ESP_Client.h&gt;
+#include &lt;addons/TokenHelper.h&gt;
+#include &lt;addons/RTDBHelper.h&gt;
+
+/* ===================== PIN ===================== */
+
+#define DS18B20_PIN    14
+#define TURBIDITY_PIN  34
+
+#define RELAY_HEATER   4
+#define RELAY_POMPA1   18
+#define RELAY_POMPA2   5
+
+#define SERVO_PIN      26
+
+/* ===================== WIFI ===================== */
+
+const char* ssid = &quot;Barokah&quot;;
+const char* password = &quot;YOUR_WIFI_PASSWORD&quot;;
+
+/* ===================== FIREBASE ===================== */
+
+#define API_KEY &quot;YOUR_FIREBASE_API_KEY&quot;
+#define DATABASE_URL &quot;YOUR_FIREBASE_DATABASE_URL&quot;
+
+FirebaseData fbdo;
+FirebaseAuth auth;
+FirebaseConfig config;
+
+bool signupOK = false;
+
+/* ===================== DS18B20 ===================== */
+
+OneWire oneWire(DS18B20_PIN);
+DallasTemperature sensors(&amp;oneWire);
+
+/* ===================== SERVO ===================== */
+
+Servo feeder;
+
+/* ===================== PENGATURAN SERVO ===================== */
+
+int sudutAwalServo = 0;
+
+int sudutPakanServo = 90;
+
+int durasiServo = 15; // detik
+
+/* ===================== VARIABEL ===================== */
+
+float suhu = 0;
+float ntu = 0;
+
+int tahapGantiAir = 0;
+unsigned long waktuPompa = 0;
+
+const unsigned long DURASI_POMPA1 = 120000; // 2 menit
+const unsigned long DURASI_POMPA2 = 120000; // 2 menit
+
+bool prosesGantiAir = false;
+
+String modeSistem = &quot;AUTO&quot;;
+
+bool pompaManual = false;
+bool heaterManual = false;
+
+bool feedNow = false;
+String jadwalPagi = &quot;05:00&quot;;
+String jadwalSiang = &quot;12:00&quot;;
+String jadwalSore = &quot;17:00&quot;;
+
+String jadwalTerakhir = &quot;&quot;;
+
+unsigned long lastJadwalRead = 0;
+
+bool statusPompa = false;
+bool statusHeater = false;
+unsigned long lastHistorySave = 0;
+const unsigned long intervalHistory = 60000; // 1 menit
+
+bool servoAktif = false;
+
+unsigned long waktuServo = 0;
+
+unsigned long lastSensorRead = 0;
+unsigned long lastFirebaseSend = 0;
+
+unsigned long lastControlRead = 0;
+
+const unsigned long intervalControl = 2000;
+
+const unsigned long intervalSensor = 2000;    // baca sensor tiap 2 detik
+const unsigned long intervalFirebase = 2000;  // kirim firebase tiap 2 detik
+/* ===================== KALIBRASI TURBIDITY ===================== */
+
+int adcAirBersih = 0;
+
+const float targetNTU = 0.0;
+
+// Semakin besar nilai semakin lambat kenaikan NTU
+const float FAKTOR_PEMBAGI = 4095.0;
+
+/* =====================================================
+   BACA TURBIDITY
+   ===================================================== */
+
+float bacaNTU()
+{
+  long total = 0;
+
+  for (int i = 0; i &lt; 50; i++)
+  {
+    total += analogRead(TURBIDITY_PIN);
+    delay(2);
+  }
+
+  int adcValue = total / 50;
+
+  int selisihADC = adcAirBersih - adcValue;
+
+  float ntuValue = targetNTU;
+
+  if (selisihADC &gt; 15)
+  {
+    ntuValue =
+      targetNTU +
+      (((float)selisihADC / FAKTOR_PEMBAGI) * 100.0) +
+      1;
+  }
+  else
+  {
+    ntuValue = 0.0;
+  }
+
+  if (ntuValue &lt; 0) ntuValue = 0;
+  if (ntuValue &gt; 1000) ntuValue = 1000;
+
+  return ntuValue;
+}
+
+/* =====================================================
+   GANTI AIR
+   ===================================================== */
+
+void gantiAir()
+{
+    if (prosesGantiAir) return;
+
+    Serial.println(&quot;
+================================&quot;);
+    Serial.println(&quot;      PROSES GANTI AIR&quot;);
+    Serial.println(&quot;================================&quot;);
+
+    prosesGantiAir = true;
+    tahapGantiAir = 1;
+
+    digitalWrite(RELAY_HEATER, HIGH);
+    statusHeater = false;
+
+    digitalWrite(RELAY_POMPA1, LOW);
+
+    Serial.println(&quot;Pompa 1 ON&quot;);
+
+    waktuPompa = millis();
+}
+
+void prosesPompa()
+{
+    if (!prosesGantiAir) return;
+
+    if (
+        tahapGantiAir == 1 &amp;&amp;
+        millis() - waktuPompa &gt;= DURASI_POMPA1
+       )
+    {
+        digitalWrite(RELAY_POMPA1, HIGH);
+
+        Serial.println(&quot;Pompa 1 OFF&quot;);
+
+        digitalWrite(RELAY_POMPA2, LOW);
+
+        Serial.println(&quot;Pompa 2 ON&quot;);
+
+        tahapGantiAir = 2;
+        waktuPompa = millis();
+    }
+
+    else if (
+        tahapGantiAir == 2 &amp;&amp;
+        millis() - waktuPompa &gt;= DURASI_POMPA2
+    )
+    {
+        digitalWrite(RELAY_POMPA2, HIGH);
+
+        Serial.println(&quot;Pompa 2 OFF&quot;);
+
+        Serial.println(&quot;=== GANTI AIR SELESAI ===&quot;);
+
+        tahapGantiAir = 0;
+        prosesGantiAir = false;
+    }
+}
+
+void stopGantiAir()
+{
+    digitalWrite(RELAY_POMPA1, HIGH);
+    digitalWrite(RELAY_POMPA2, HIGH);
+
+    prosesGantiAir = false;
+    tahapGantiAir = 0;
+
+    Serial.println(&quot;=== GANTI AIR DIHENTIKAN MANUAL ===&quot;);
+}
+
+/* =====================================================
+   PAKAN
+   ===================================================== */
+
+void beriPakan()
+{
+    if (servoAktif) return;
+
+    Serial.println(&quot;
+================================&quot;);
+    Serial.println(&quot;       MEMBERI PAKAN&quot;);
+    Serial.println(&quot;================================&quot;);
+
+    feeder.write(sudutPakanServo);
+
+    servoAktif = true;
+
+    waktuServo = millis();
+}
+
+void prosesServo()
+{
+    if (!servoAktif) return;
+
+    if (millis() - waktuServo &gt;= (durasiServo * 1000))
+    {
+        feeder.write(sudutAwalServo);
+
+        servoAktif = false;
+
+        Serial.println(&quot;Servo Menutup&quot;);
+        Serial.println(&quot;Pakan Berhasil Diberikan&quot;);
+    }
+}
+
+/* =====================================================
+   CEK JADWAL PAKAN
+   ===================================================== */
+
+void cekJadwalPakan()
+{
+  struct tm timeinfo;
+
+  if (!getLocalTime(&amp;timeinfo))
+    return;
+
+  char jamSekarang[6];
+
+  sprintf(
+      jamSekarang,
+      &quot;%02d:%02d&quot;,
+      timeinfo.tm_hour,
+      timeinfo.tm_min
+  );
+
+  String sekarang = String(jamSekarang);
+
+  if (
+      (sekarang == jadwalPagi ||
+       sekarang == jadwalSiang ||
+       sekarang == jadwalSore)
+      &amp;&amp;
+      jadwalTerakhir != sekarang
+     )
+  {
+      Serial.println(&quot;JADWAL PAKAN AKTIF&quot;);
+
+      beriPakan();
+
+      jadwalTerakhir = sekarang;
+  }
+
+  if (
+      sekarang != jadwalPagi &amp;&amp;
+      sekarang != jadwalSiang &amp;&amp;
+      sekarang != jadwalSore
+     )
+  {
+      jadwalTerakhir = &quot;&quot;;
+  }
+}
+
+void bacaJadwalFirebase()
+{
+  if (Firebase.RTDB.getString(
+        &amp;fbdo,
+        &quot;/jadwal/pagi&quot;))
+  {
+    jadwalPagi = fbdo.stringData();
+  }
+
+  if (Firebase.RTDB.getString(
+        &amp;fbdo,
+        &quot;/jadwal/siang&quot;))
+  {
+    jadwalSiang = fbdo.stringData();
+  }
+
+  if (Firebase.RTDB.getString(
+        &amp;fbdo,
+        &quot;/jadwal/sore&quot;))
+  {
+    jadwalSore = fbdo.stringData();
+  }
+}
+
+void bacaSettingServo()
+{
+  if (Firebase.RTDB.getInt(
+        &amp;fbdo,
+        &quot;/servo/sudut&quot;))
+  {
+    sudutPakanServo = fbdo.intData();
+  }
+
+  if (Firebase.RTDB.getInt(
+        &amp;fbdo,
+        &quot;/servo/durasi&quot;))
+  {
+    durasiServo = fbdo.intData();
+  }
+}
+
+void bacaSensor()
+{
+    sensors.requestTemperatures();
+
+    float temp = sensors.getTempCByIndex(0);
+
+    if (temp &gt; -50 &amp;&amp; temp &lt; 100)
+    {
+        suhu = temp;
+    }
+
+    ntu = bacaNTU();
+
+    Serial.print(&quot;Suhu Update : &quot;);
+    Serial.println(suhu);
+
+    Serial.print(&quot;NTU Update  : &quot;);
+    Serial.println(ntu);
+}
+
+void kirimFirebase()
+{
+    if (!Firebase.ready() || !signupOK)
+        return;
+
+    Firebase.RTDB.setFloat(
+        &amp;fbdo,
+        &quot;/sensor/suhu&quot;,
+        suhu
+    );
+
+    Firebase.RTDB.setFloat(
+        &amp;fbdo,
+        &quot;/sensor/ntu&quot;,
+        ntu
+    );
+
+    // =====================
+    // SIMPAN HISTORY
+    // =====================
+
+    if (millis() - lastHistorySave &gt;= intervalHistory)
+    {
+        lastHistorySave = millis();
+
+        unsigned long waktu = time(nullptr);
+
+        String key = String(waktu);
+
+        Firebase.RTDB.setFloat(
+            &amp;fbdo,
+            &quot;/history/&quot; + key + &quot;/suhu&quot;,
+            suhu
+        );
+
+        Firebase.RTDB.setFloat(
+            &amp;fbdo,
+            &quot;/history/&quot; + key + &quot;/ntu&quot;,
+            ntu
+        );
+
+        Firebase.RTDB.setInt(
+            &amp;fbdo,
+            &quot;/history/&quot; + key + &quot;/waktu&quot;,
+            waktu
+        );
+
+        Serial.println(&quot;History tersimpan&quot;);
+    }
+
+    Serial.println(&quot;Firebase Update&quot;);
+}
+
+void bacaControlFirebase()
+{
+    if (!Firebase.ready() || !signupOK)
+        return;
+
+    if (Firebase.RTDB.getString(&amp;fbdo, &quot;/control/mode&quot;))
+    {
+        modeSistem = fbdo.stringData();
+    }
+
+    if (Firebase.RTDB.getBool(&amp;fbdo, &quot;/control/pompa&quot;))
+{
+    pompaManual = fbdo.boolData();
+
+    Serial.print(&quot;Status Pompa Firebase: &quot;);
+    Serial.println(pompaManual);
+}
+else
+{
+    Serial.println(&quot;Gagal membaca status pompa&quot;);
+}
+
+    if (Firebase.RTDB.getBool(&amp;fbdo, &quot;/control/heater&quot;))
+    {
+        heaterManual = fbdo.boolData();
+    }
+
+    if (Firebase.RTDB.getBool(&amp;fbdo, &quot;/control/feedNow&quot;))
+    {
+        feedNow = fbdo.boolData();
+    }
+}
+
+/* =====================================================
+   SETUP
+   ===================================================== */
+void setup()
+{
+  Serial.begin(115200);
+  feeder.attach(SERVO_PIN);
+
+
+  sensors.begin();
+
+  analogReadResolution(12);
+  analogSetAttenuation(ADC_11db);
+
+  /* ================= KALIBRASI AIR BERSIH ================= */
+
+long totalInisiasi = 0;
+
+for (int i = 0; i &lt; 100; i++)
+{
+  totalInisiasi += analogRead(TURBIDITY_PIN);
+  delay(10);
+}
+
+adcAirBersih = totalInisiasi / 100;
+
+Serial.print(&quot;ADC Air Bersih = &quot;);
+Serial.println(adcAirBersih);
+
+Serial.println(&quot;Kalibrasi Selesai&quot;);
+delay(2000);
+
+  pinMode(RELAY_HEATER, OUTPUT);
+  pinMode(RELAY_POMPA1, OUTPUT);
+  pinMode(RELAY_POMPA2, OUTPUT);
+
+  // Relay OFF saat startup
+  digitalWrite(RELAY_HEATER, HIGH);
+  digitalWrite(RELAY_POMPA1, HIGH);
+  digitalWrite(RELAY_POMPA2, HIGH);
+
+
+  feeder.write(sudutAwalServo);
+
+  /* ================= WIFI ================= */
+
+  WiFi.begin(ssid, password);
+
+  Serial.print(&quot;Menghubungkan WiFi&quot;);
+
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    Serial.print(&quot;.&quot;);
+    delay(500);
+  }
+
+  Serial.println(&quot;
+WiFi Terhubung&quot;);
+
+  config.api_key = API_KEY;
+config.database_url = DATABASE_URL;
+
+if (Firebase.signUp(&amp;config, &amp;auth, &quot;&quot;, &quot;&quot;))
+{
+  signupOK = true;
+  Serial.println(&quot;Firebase Connected&quot;);
+}
+else
+{
+  Serial.println(config.signer.signupError.message.c_str());
+}
+
+Firebase.begin(&amp;config, &amp;auth);
+Firebase.reconnectWiFi(true);
+
+  configTime(7 * 3600, 0, &quot;pool.ntp.org&quot;);
+
+struct tm timeinfo;
+
+  while (!getLocalTime(&amp;timeinfo))
+  {
+      Serial.println(&quot;Menunggu waktu NTP...&quot;);
+      delay(1000);
+  }
+
+  Serial.println(&quot;Waktu NTP berhasil&quot;);
+  }
+
+/* =====================================================
+   LOOP
+   ===================================================== */
+
+void loop()
+{
+
+  prosesPompa();
+
+  prosesServo();
+
+  if (millis() - lastControlRead &gt;= intervalControl)
+{
+    lastControlRead = millis();
+
+    bacaControlFirebase();
+}
+
+  // ======================
+// BACA SENSOR
+// ======================
+
+if (millis() - lastSensorRead &gt;= intervalSensor)
+{
+    lastSensorRead = millis();
+
+    bacaSensor();
+}
+
+// ======================
+// KIRIM FIREBASE
+// ======================
+
+if (millis() - lastFirebaseSend &gt;= intervalFirebase)
+{
+    lastFirebaseSend = millis();
+
+    kirimFirebase();
+}
+
+  if (millis() - lastJadwalRead &gt; 60000)
+{
+    lastJadwalRead = millis();
+
+    bacaJadwalFirebase();
+
+    bacaSettingServo();
+
+    Serial.println(&quot;
+=== DATA FIREBASE ===&quot;);
+
+    Serial.print(&quot;Pagi  : &quot;);
+    Serial.println(jadwalPagi);
+
+    Serial.print(&quot;Siang : &quot;);
+    Serial.println(jadwalSiang);
+
+    Serial.print(&quot;Sore  : &quot;);
+    Serial.println(jadwalSore);
+
+    Serial.print(&quot;Sudut Servo : &quot;);
+    Serial.println(sudutPakanServo);
+
+    Serial.print(&quot;Durasi Servo : &quot;);
+    Serial.println(durasiServo);
+}
+
+    long totalADC = 0;
+
+for (int i = 0; i &lt; 50; i++)
+{
+  totalADC += analogRead(TURBIDITY_PIN);
+}
+
+int adcNow = totalADC / 50;
+
+float voltage =
+  (adcNow * 3.3) / 4095.0;
+
+  Serial.println(&quot;
+================================&quot;);
+
+Serial.print(&quot;Suhu Air : &quot;);
+Serial.print(suhu);
+Serial.println(&quot; °C&quot;);
+
+Serial.print(&quot;ADC Air Bersih : &quot;);
+Serial.println(adcAirBersih);
+
+Serial.print(&quot;ADC Saat Ini   : &quot;);
+Serial.println(adcNow);
+
+Serial.print(&quot;Tegangan       : &quot;);
+Serial.print(voltage, 3);
+Serial.println(&quot; V&quot;);
+
+Serial.print(&quot;Kekeruhan      : &quot;);
+Serial.print(ntu);
+Serial.println(&quot; NTU&quot;);
+
+Serial.print(&quot;Mode Sistem : &quot;);
+Serial.println(modeSistem);
+
+  if (modeSistem == &quot;AUTO&quot;)
+{
+    /* ================= SUHU ================= */
+
+    if (suhu &lt;= 25)
+  {
+      digitalWrite(RELAY_HEATER, LOW);
+      statusHeater = true;
+
+      Serial.println(&quot;Status : HEATER ON&quot;);
+  }
+    else if (suhu &gt; 25 &amp;&amp; suhu &lt;= 27)
+  {
+      digitalWrite(RELAY_HEATER, HIGH);
+      statusHeater = false;
+
+      Serial.println(&quot;Status : SUHU NORMAL&quot;);
+  }
+    else
+  {
+      digitalWrite(RELAY_HEATER, HIGH);
+      statusHeater = false;
+
+      Serial.println(&quot;Status : SUHU TINGGI&quot;);
+
+      gantiAir();
+  }
+
+    /* ================= KEKERUHAN ================= */
+
+    if (ntu &lt;= 10)
+    {
+        Serial.println(&quot;Kondisi Air : JERNIH&quot;);
+    }
+    else if (ntu &lt;= 25)
+    {
+        Serial.println(&quot;Kondisi Air : KERUH&quot;);
+        gantiAir();
+    }
+    else
+    {
+        Serial.println(&quot;Kondisi Air : KOTOR&quot;);
+        gantiAir();
+    }
+
+    cekJadwalPakan();
+  }
+  else
+{
+    Serial.println(&quot;MODE MANUAL AKTIF&quot;);
+
+    // ===== POMPA =====
+    if (pompaManual)
+    {
+        if (!prosesGantiAir)
+        {
+            gantiAir();
+        }
+    }
+    else
+    {
+        if (prosesGantiAir)
+        {
+            stopGantiAir();
+        }
+    }
+
+    // ===== HEATER =====
+    if (heaterManual)
+    {
+        digitalWrite(RELAY_HEATER, LOW);
+        statusHeater = true;
+    }
+    else
+    {
+        digitalWrite(RELAY_HEATER, HIGH);
+        statusHeater = false;
+    }
+
+    // ===== PAKAN =====
+    if (feedNow)
+    {
+        beriPakan();
+
+        Firebase.RTDB.setBool(
+            &amp;fbdo,
+            &quot;/control/feedNow&quot;,
+            false
+        );
+
+        feedNow = false;
+    }
+}
+}</code></pre>
+    </div>
+
+    <ul class="jentry__tags code__tags">
+      <li>ESP32</li><li>DS18B20</li><li>Turbidity</li><li>Firebase</li><li>Servo</li><li>Android</li><li>Arduino IDE</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div class="foot__brand">
+      <span class="logo__mark">SS</span>
+      <div>
+        <b>Selmi Suryani</b>
+        <i>Source Code 2026</i>
+      </div>
+    </div>
+    <ul class="foot__nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="journal.html">Journal</a></li>
+      <li><a href="certificate.html">Certificate</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <span class="foot__cp">&copy; <span id="year">2026</span> Selmi Suryani</span>
+  </div>
+</footer>
+
+<script>document.documentElement.className += ' js';</script>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/journal.js"></script>
+</body>
+</html>
