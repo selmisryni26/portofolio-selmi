@@ -532,6 +532,20 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
   padding:11px 14px; font-size:.77rem; font-weight:500; color:var(--ink-2);
   background:var(--white); border-top:1px solid var(--line);
 }
+
+/* ── Thumbnail disamarkan — dokumen berisi data internal ──
+   Gambar sengaja diburamkan dan tidak bisa dibuka besar lewat lightbox. */
+.shot--blur{cursor:default;}
+.shot--blur:hover{transform:none; box-shadow:none; border-color:var(--line);}
+.shot--blur img{filter:blur(11px);}
+.shot--blur:hover img{transform:none;}
+.shot__lock{
+  position:absolute; top:10px; left:10px; z-index:2;
+  font-size:.6rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--ink-2); padding:4px 10px; border-radius:100px;
+  background:var(--surface-chip); border:1px solid var(--line-2);
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+}
 .gal--4 .shot img{aspect-ratio:566/800; object-fit:cover; object-position:top center;}
 .gal--paper .shot img{aspect-ratio:4/3; object-fit:contain; background:var(--paper); padding:10px;}
 .gal--tall{max-width:640px;}

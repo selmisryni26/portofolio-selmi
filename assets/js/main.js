@@ -103,6 +103,8 @@
   function visibleShots() {
     return [].slice.call(document.querySelectorAll('.shot img')).filter(function (img) {
       var proj = img.closest('.proj');
+      var shot = img.closest('.shot');
+      if (shot && shot.classList.contains('shot--blur')) return false;
       return !proj || !proj.classList.contains('is-hidden');
     });
   }
@@ -141,7 +143,7 @@
 
   document.addEventListener('click', function (e) {
     var shot = e.target.closest('.shot');
-    if (!shot) return;
+    if (!shot || shot.classList.contains('shot--blur')) return;
     var img = shot.querySelector('img');
     if (img) openBox(img);
   });
