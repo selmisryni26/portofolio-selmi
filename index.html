@@ -475,23 +475,67 @@
     <article class="proj reveal" data-cat="iot">
       <header class="proj__head">
         <div>
-          <h3>Internship — IoT-Based Bridge SHMS</h3>
-          <p class="proj__meta">Internship · 2025</p>
+          <h3>Internship &mdash; IoT-Based Bridge SHMS</h3>
+          <p class="proj__meta">Internship &middot; 2025</p>
         </div>
         <div>
           <p class="proj__formal">Structural Health Monitoring System for Bridges Based on the Internet of Things (IoT)</p>
-          <p class="proj__desc">A Structural Health Monitoring System that monitors bridge structural conditions in real time using accelerometer and load cell sensors, developed during an internship at the Public Works and Spatial Planning Department of Kebumen Regency.</p>
+          <p class="proj__desc">A Structural Health Monitoring System that reads a bridge&rsquo;s vibration and load in real time and reports its condition through a Node-RED dashboard &mdash; built during an internship at the Public Works and Spatial Planning Office of Kebumen Regency.</p>
         </div>
       </header>
+
+      <div class="proj__brief">
+        <div class="proj__col">
+          <p class="proj__label">How it works</p>
+          <ul class="proj__specs">
+            <li>An MPU6050 accelerometer reads vibration, acceleration and tilt; a load cell reads weight, force, stress, strain, change in length and deflection</li>
+            <li>An ESP32 publishes the readings over MQTT to a Node-RED dashboard and a MySQL database, while a 16&times;2 LCD shows them on site</li>
+            <li>Recorded data is exported to Microsoft Excel and processed in SeismoSignal with FFT to obtain the bridge&rsquo;s actual frequency and deflection</li>
+          </ul>
+
+          <p class="proj__label">Site</p>
+          <p class="proj__text">Pelangi Luk Ulo Bridge &mdash; a 60 m Warren truss bridge over the Luk Ulo river at Pejagoan, Kebumen, built in 1997. The sensors were mounted at mid-span on the lower girder.</p>
+
+          <p class="proj__label">Supervisor</p>
+          <p class="proj__text">Ari Sugiharto, S.Si., M.Eng. &mdash; Computer Engineering, Universitas Teknologi Yogyakarta.</p>
+        </div>
+
+        <div class="proj__col">
+          <p class="proj__label">Tools &amp; materials</p>
+          <ul class="proj__specs">
+            <li>ESP32 microcontroller (Wi-Fi, 48 GPIO)</li>
+            <li>MPU6050 accelerometer &mdash; 6-DOF IMU, 16-bit, I&sup2;C</li>
+            <li>Load cell with HX711 amplifier module &mdash; 24-bit ADC</li>
+            <li>16&times;2 I&sup2;C LCD, breadboard, jumper wires, micro USB cable</li>
+            <li>Double-type clamp to lock the sensor onto the bridge girder</li>
+          </ul>
+
+          <p class="proj__label">Software</p>
+          <ul class="proj__specs">
+            <li>Arduino IDE (C/C++), MQTT, Node-RED, MySQL, Microsoft Excel and SeismoSignal</li>
+          </ul>
+
+          <p class="proj__label">Result</p>
+          <p class="proj__text">Peak acceleration at mid-span reached 0.09 g (x), 0.09 g (y) and 0.10 g (z). A measured frequency of 2.19727 Hz against a natural frequency of 2.1946 Hz from SAP2000 gave a frequency ratio of 0.121% &mdash; level 1, meaning no immediate repair, only routine maintenance. Actual strain of 0.0003% stayed under the 0.00112% limit, and actual deflection of 0.0698 m stayed under the 0.075 m limit.</p>
+        </div>
+      </div>
 
       <div class="gal gal--strip">
         <figure class="shot">
           <img src="assets/img/projects/internship-photo-1.jpg" alt="SHMS prototype with LCD, breadboard and sensor wiring" loading="lazy">
-          <span class="shot__open" aria-hidden="true">↗</span>
+          <span class="shot__open" aria-hidden="true">&#8599;</span>
         </figure>
         <figure class="shot">
           <img src="assets/img/projects/internship-photo-2.jpg" alt="KerjaPraktik dashboard showing gyroscope and accelerometer charts with load cell readings" loading="lazy">
-          <span class="shot__open" aria-hidden="true">↗</span>
+          <span class="shot__open" aria-hidden="true">&#8599;</span>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/projects/shms-bridge-sensor.jpg" alt="SHMS sensor unit mounted on the girder at mid-span of the Pelangi Luk Ulo bridge" loading="lazy">
+          <span class="shot__open" aria-hidden="true">&#8599;</span>
+        </figure>
+        <figure class="shot">
+          <img src="assets/img/projects/shms-database-mysql.jpg" alt="phpMyAdmin sensor_data table storing the accelerometer and load cell readings" loading="lazy">
+          <span class="shot__open" aria-hidden="true">&#8599;</span>
         </figure>
       </div>
     </article>
