@@ -308,6 +308,14 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
   text-align:center; border-top:1px solid var(--line); background:var(--white);
 }
 .card__body{display:flex; flex-direction:column; gap:6px;}
+/* Baris lebar di dalam kartu unggulan — tangkapan layar dashboard & database */
+.card__wide{
+  grid-column:1/-1; margin-top:22px; padding-top:22px;
+  border-top:1px solid var(--line);
+}
+@media (max-width:660px){
+  .card__wide.gal--2{grid-template-columns:1fr;}
+}
 .card__sub{
   font-family:var(--serif); font-size:1.02rem; font-weight:600;
   letter-spacing:-.01em; color:var(--ink); margin:4px 0 0;
