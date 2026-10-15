@@ -264,22 +264,10 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 /* ── Cards ───────────────────────────────────────── */
 /* Poster penghargaan ditampilkan sekecil thumbnail sertifikat:
    kotak lanskap 4:3, poster utuh di dalamnya (tidak dipotong). */
-/* Media di kartu penghargaan — persis seperti thumbnail di halaman
-   Certificate: gambar MENGISI PENUH bingkai 4:3, tanpa sisa gelap. */
-.card__media{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 12px; align-items:start;}
-.card__poster, .card__photo{
-  margin:0 0 12px; border-radius:var(--r-sm); overflow:hidden;
-  border:1px solid var(--line); background:var(--paper);
-}
-.card__media .card__poster, .card__media .card__photo{margin:0;}
-.card__poster img, .card__photo img{
-  display:block; width:100%; aspect-ratio:4/3; object-fit:cover; object-position:top center;
-}
-.card__poster figcaption, .card__photo figcaption{
-  padding:7px 10px; font-size:.7rem; line-height:1.3; color:var(--ink-3);
-  text-align:center; border-top:1px solid var(--line); background:var(--white);
-}
-
+/* Baris tautan di kartu penghargaan — poster, foto & sertifikat
+   dibuka lewat tautan (tidak ditampilkan sebagai gambar di kartu). */
+.card__links{display:flex; flex-wrap:wrap; gap:8px; margin-top:auto; padding-top:4px;}
+.card__links .card__link{margin:0;}
 .card{
   background:var(--white); border-radius:var(--r); padding:26px 28px;
   border:1px solid var(--line); transition:.26s;
