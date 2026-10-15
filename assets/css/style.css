@@ -234,9 +234,13 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 }
 .hero__role{
   font-family:var(--serif); font-weight:500; font-size:clamp(1.06rem,2.3vw,1.45rem);
-  line-height:1.4; letter-spacing:-.015em; color:var(--ink); margin:0 auto 18px; max-width:34ch;
+  line-height:1.4; letter-spacing:-.015em; color:var(--ink); margin:0 auto 18px; max-width:100%;
 }
 .hero__role em{font-style:italic; color:var(--terra);}
+/* Jaga agar 'Focused on ... UI Design' tidak terbelah jadi dua baris.
+   Di layar sempit izin membungkus lagi supaya tidak meluber ke samping. */
+.hero__role .nowrap{white-space:nowrap;}
+@media (max-width:640px){ .hero__role .nowrap{white-space:normal;} }
 .hero__lead{color:var(--ink-2); max-width:58ch; margin:0 auto 28px;}
 .hero__btns{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:26px; justify-content:center;}
 
@@ -258,12 +262,15 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 .head--center .eyebrow{margin-bottom:12px;}
 
 /* ── Cards ───────────────────────────────────────── */
+/* Poster penghargaan ditampilkan sekecil thumbnail sertifikat:
+   kotak lanskap 4:3, poster utuh di dalamnya (tidak dipotong). */
 .card__poster{
-  margin:0 0 10px; border-radius:var(--r-sm); overflow:hidden;
+  margin:0 0 12px; border-radius:var(--r-sm); overflow:hidden;
   border:1px solid var(--line); background:var(--paper);
 }
 .card__poster img{
-  display:block; width:100%; aspect-ratio:566/800; object-fit:cover; object-position:top center;
+  display:block; width:100%; aspect-ratio:4/3; object-fit:contain;
+  background:var(--paper); padding:10px;
 }
 .card__poster figcaption{
   padding:8px 10px; font-size:.72rem; color:var(--ink-3);
