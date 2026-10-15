@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>Source Code — Bridge SHMS · Selmi Suryani</title>
+<meta name="description" content="ESP32 firmware for the IoT bridge structural health monitoring internship project — reading an MPU6050 accelerometer and an HX711 load cell, then publishing the data over MQTT and HTTP to a dashboard and database." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23F6F1E6'/><text y='70' x='50' font-size='54' font-family='Georgia,serif' font-weight='bold' fill='%23C0693C' text-anchor='middle'>S</text></svg>" />
+<script>
+/* Terapkan tema sebelum halaman digambar, supaya tidak berkedip. */
+(function () {
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  } catch (e) {}
+})();
+</script>
+</head>
+<body class="page-journal">
+
+<header class="nav is-stuck" id="nav">
+  <div class="nav__in">
+    <a href="index.html" class="logo">
+      <span class="logo__mark">SS</span>
+      <span class="logo__txt">Selmi<span> Suryani</span></span>
+    </a>
+    <nav class="nav__links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#education">Education</a>
+      <a href="journal.html">Journal</a>
+      <a href="certificate.html">Certificate</a>
+    </nav>
+    <a href="index.html#contact" class="nav__cta">Get in Touch <span aria-hidden="true">&#8599;</span></a>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch to dark theme" title="Switch theme">
+      <span class="theme-btn__ic" aria-hidden="true">
+        <svg class="theme-btn__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/>
+        </svg>
+        <svg class="theme-btn__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/>
+        </svg>
+      </span>
+    </button>
+    <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<section class="jhead">
+  <div class="wrap">
+    <a href="index.html#projects" class="backlink">
+      <span aria-hidden="true">&#8592;</span> Back to portfolio
+    </a>
+    <p class="eyebrow">Source Code &mdash;</p>
+    <h1 class="jhead__title">Structural Health Monitoring System for Bridges</h1>
+    <p class="jhead__lead">
+      ESP32 firmware for the internship project &mdash; reading an MPU6050 accelerometer and an
+      HX711 load cell, then publishing the data over MQTT and HTTP.
+    </p>
+  </div>
+</section>
+
+<section class="sec sec--cream">
+  <div class="wrap">
+    <div class="code">
+      <div class="code__head">
+        <span class="code__name">kerjapraktik2.ino &middot; ESP32 / Arduino IDE</span>
+        <a class="code__dl" href="assets/code/bridge-shms-esp32.ino" download>Download .ino <span aria-hidden="true">&#8599;</span></a>
+      </div>
+      <pre><code>#include &lt;WiFi.h&gt;
+#include &lt;HTTPClient.h&gt;
+#include &lt;PubSubClient.h&gt;
+#include &lt;Adafruit_MPU6050.h&gt;
+#include &lt;Adafruit_Sensor.h&gt;
+#include &lt;Wire.h&gt;
+#include &lt;HX711.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+// === Load Cell ===
+#define DOUT 18
+#define CLK 19
+HX711 scale;
+float calibration_factor = 1000.0;
+
+// === MPU6050 ===
+Adafruit_MPU6050 mpu;
+
+// === WiFi ===
+const char* ssid = &quot;Kontrakan Baru&quot;;
+const char* password = &quot;YOUR_WIFI_PASSWORD&quot;;
+
+// === MQTT ===
+const char* mqtt_server = &quot;broker.emqx.io&quot;;
+const int mqtt_port = 1883;
+const char* mqtt_topic = &quot;kerjapraktik&quot;;
+
+// === PHP Server ===
+const char* serverUrl = &quot;http://192.168.1.127/postdata.php&quot;;
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+// === LCD I2C ===
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// === Fisika Material ===
+const float GRAVITY = 9.81;              // m/s²
+const float AREA = 0.0001;               // m² (1 cm x 1 cm)
+const float YOUNG_MODULUS = 200e9;       // Pa (misal baja)
+
+unsigned long lastSwitch = 0;
+int displayMode = 0;
+unsigned long lastScroll = 0;
+int scrollIndex = 0;
+String scrollText = &quot;&quot;;
+
+void setup() {
+  Serial.begin(115200);
+
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println(&quot;Menghubungkan ke WiFi...&quot;);
+  }
+  Serial.println(&quot;Terhubung ke WiFi&quot;);
+
+  client.setServer(mqtt_server, mqtt_port);
+  reconnectMQTT();
+
+  if (!mpu.begin()) {
+    Serial.println(&quot;MPU6050 tidak ditemukan!&quot;);
+    while (1) delay(10);
+  }
+  mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+  mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+  mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
+
+  scale.begin(DOUT, CLK);
+  scale.set_scale(calibration_factor);
+  scale.tare();
+
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+  delay(1000);
+}
+
+void loop() {
+  if (!client.connected()) {
+    reconnectMQTT();
+  }
+  client.loop();
+
+  // === Sensor MPU6050 ===
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&amp;a, &amp;g, &amp;temp);
+
+  float ax = a.acceleration.x / 50.0;
+  float ay = a.acceleration.y / 10.0;
+  float az = 0.11 - (a.acceleration.z / 100.0);
+  float gx = g.gyro.x;
+  float gy = g.gyro.y;
+  float gz = g.gyro.z;
+
+  // === Load Cell HX711 ===
+  float weight_grams = scale.get_units(5);
+  float weight_mg = weight_grams * 1000.0;
+  float weight_kg = weight_grams / 1000.0;
+  float force_newtons = weight_kg * GRAVITY;
+  float stress_pascal = force_newtons / AREA;
+  float strain = stress_pascal / YOUNG_MODULUS;
+
+  // === Serial Monitoring ===
+  Serial.println(&quot;===================================&quot;);
+  Serial.printf(&quot;AX: %.2f | AY: %.2f | AZ: %.2f
+&quot;, ax, ay, az);
+  Serial.printf(&quot;GX: %.2f | GY: %.2f | GZ: %.2f
+&quot;, gx, gy, gz);
+  Serial.printf(&quot;Berat: %.2f g | %.2f mg
+&quot;, weight_grams, weight_mg);
+  Serial.printf(&quot;Gaya: %.2f N | Tegangan: %.2f Pa | Regangan: %.6f
+&quot;, force_newtons, stress_pascal, strain);
+
+  // === Kirim ke MQTT dan HTTP ===
+  kirimDataMQTT(ax, ay, az, gx, gy, gz, weight_grams, force_newtons, stress_pascal, strain);
+  kirimData(ax, ay, az, gx, gy, gz, weight_grams, force_newtons, stress_pascal, strain);
+
+  // === LCD Display Scroll ===
+  if (millis() - lastSwitch &gt; 5000) {
+    displayMode = (displayMode + 1) % 3;
+    lastSwitch = millis();
+    scrollIndex = 0;
+    lcd.clear();
+
+    if (displayMode == 0) {
+      lcd.setCursor(0, 0);
+      lcd.print(&quot;Accelerometer&quot;);
+      scrollText = &quot; ax:&quot; + String(ax, 2) + &quot; ay:&quot; + String(ay, 2) + &quot; az:&quot; + String(az, 2) + &quot;   &quot;;
+    } else if (displayMode == 1) {
+      lcd.setCursor(0, 0);
+      lcd.print(&quot;Gyroscope&quot;);
+      scrollText = &quot; gx:&quot; + String(gx, 2) + &quot; gy:&quot; + String(gy, 2) + &quot; gz:&quot; + String(gz, 2) + &quot;   &quot;;
+    } else if (displayMode == 2) {
+      lcd.setCursor(0, 0);
+      lcd.print(&quot;Load Cell&quot;);
+      scrollText = &quot; Berat:&quot; + String(weight_grams, 2) + &quot;g Gaya:&quot; + String(force_newtons, 2) + &quot;N   &quot;;
+    }
+
+    lcd.setCursor(0, 1);
+    lcd.print(scrollText.substring(0, 16));
+  }
+
+  // Scrolling Text
+  if (displayMode &lt;= 2) {
+    if (millis() - lastScroll &gt; 300) {
+      lastScroll = millis();
+      scrollIndex++;
+      if (scrollIndex &gt; scrollText.length()) scrollIndex = 0;
+
+      String tampil = scrollText.substring(scrollIndex) + scrollText.substring(0, scrollIndex);
+      lcd.setCursor(0, 1);
+      lcd.print(tampil.substring(0, 16));
+    }
+  }
+
+  delay(500);
+}
+
+// === MQTT Publish ===
+void kirimDataMQTT(float ax, float ay, float az, float gx, float gy, float gz,
+                   float berat, float gaya, float tegangan, float regangan) {
+  String payload = &quot;{&quot;;
+  payload += &quot;\&quot;ax\&quot;:&quot; + String(ax, 2) + &quot;,&quot;;
+  payload += &quot;\&quot;ay\&quot;:&quot; + String(ay, 2) + &quot;,&quot;;
+  payload += &quot;\&quot;az\&quot;:&quot; + String(az, 2) + &quot;,&quot;;
+  payload += &quot;\&quot;gx\&quot;:&quot; + String(gx, 2) + &quot;,&quot;;
+  payload += &quot;\&quot;gy\&quot;:&quot; + String(gy, 2) + &quot;,&quot;;
+  payload += &quot;\&quot;gz\&quot;:&quot; + String(gz, 2) + &quot;,&quot;;
+  payload += &quot;\&quot;berat\&quot;:&quot; + String(berat, 2) + &quot;,&quot;;
+  payload += &quot;\&quot;gaya\&quot;:&quot; + String(gaya, 2) + &quot;,&quot;;
+  payload += &quot;\&quot;tegangan\&quot;:&quot; + String(tegangan, 2) + &quot;,&quot;;
+  payload += &quot;\&quot;regangan\&quot;:&quot; + String(regangan, 6);
+  payload += &quot;}&quot;;
+
+  client.publish(mqtt_topic, payload.c_str());
+  Serial.println(&quot;MQTT terkirim:&quot;);
+  Serial.println(payload);
+}
+
+// === HTTP POST ke PHP Server ===
+void kirimData(float ax, float ay, float az, float gx, float gy, float gz,
+               float berat, float gaya, float tegangan, float regangan) {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.begin(serverUrl);
+    http.addHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+
+    String postData = &quot;ax=&quot; + String(ax) +
+                      &quot;&amp;ay=&quot; + String(ay) +
+                      &quot;&amp;az=&quot; + String(az) +
+                      &quot;&amp;gx=&quot; + String(gx) +
+                      &quot;&amp;gy=&quot; + String(gy) +
+                      &quot;&amp;gz=&quot; + String(gz) +
+                      &quot;&amp;berat=&quot; + String(berat) +
+                      &quot;&amp;gaya=&quot; + String(gaya) +
+                      &quot;&amp;tegangan=&quot; + String(tegangan) +
+                      &quot;&amp;regangan=&quot; + String(regangan);
+
+    int httpResponseCode = http.POST(postData);
+    Serial.print(&quot;HTTP Response: &quot;);
+    Serial.println(httpResponseCode);
+
+    http.end();
+  } else {
+    Serial.println(&quot;WiFi tidak terhubung&quot;);
+  }
+}
+
+// === MQTT Reconnect ===
+void reconnectMQTT() {
+  while (!client.connected()) {
+    Serial.print(&quot;Menghubungkan ke MQTT...&quot;);
+    if (client.connect(&quot;ESP32Client&quot;)) {
+      Serial.println(&quot;terhubung&quot;);
+    } else {
+      Serial.print(&quot;gagal, rc=&quot;);
+      Serial.print(client.state());
+      Serial.println(&quot; coba lagi dalam 5 detik&quot;);
+      delay(5000);
+    }
+  }
+}</code></pre>
+    </div>
+
+    <ul class="jentry__tags code__tags">
+      <li>ESP32</li><li>MPU6050</li><li>HX711</li><li>MQTT</li><li>HTTP</li><li>LCD I&sup2;C</li><li>Arduino IDE</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div class="foot__brand">
+      <span class="logo__mark">SS</span>
+      <div>
+        <b>Selmi Suryani</b>
+        <i>Source Code 2025</i>
+      </div>
+    </div>
+    <ul class="foot__nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="journal.html">Journal</a></li>
+      <li><a href="certificate.html">Certificate</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <span class="foot__cp">&copy; <span id="year">2026</span> Selmi Suryani</span>
+  </div>
+</footer>
+
+<script>document.documentElement.className += ' js';</script>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/journal.js"></script>
+</body>
+</html>
