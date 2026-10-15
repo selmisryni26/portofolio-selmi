@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>Source Code — Aquarium Monitoring · Selmi Suryani</title>
+<meta name="description" content="ESP32 firmware for the IoT aquarium monitoring and treatment capstone project — reading water temperature and turbidity on a DS18B20 and a turbidity sensor, driving two pumps to renew the water automatically." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23F6F1E6'/><text y='70' x='50' font-size='54' font-family='Georgia,serif' font-weight='bold' fill='%23C0693C' text-anchor='middle'>S</text></svg>" />
+<script>
+/* Terapkan tema sebelum halaman digambar, supaya tidak berkedip. */
+(function () {
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  } catch (e) {}
+})();
+</script>
+</head>
+<body class="page-journal">
+
+<header class="nav is-stuck" id="nav">
+  <div class="nav__in">
+    <a href="index.html" class="logo">
+      <span class="logo__mark">SS</span>
+      <span class="logo__txt">Selmi<span> Suryani</span></span>
+    </a>
+    <nav class="nav__links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#education">Education</a>
+      <a href="journal.html">Journal</a>
+      <a href="certificate.html">Certificate</a>
+    </nav>
+    <a href="index.html#contact" class="nav__cta">Get in Touch <span aria-hidden="true">&#8599;</span></a>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch to dark theme" title="Switch theme">
+      <span class="theme-btn__ic" aria-hidden="true">
+        <svg class="theme-btn__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/>
+        </svg>
+        <svg class="theme-btn__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/>
+        </svg>
+      </span>
+    </button>
+    <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<section class="jhead">
+  <div class="wrap">
+    <a href="index.html#projects" class="backlink">
+      <span aria-hidden="true">&#8592;</span> Back to portfolio
+    </a>
+    <p class="eyebrow">Source Code &mdash;</p>
+    <h1 class="jhead__title">Aquarium Monitoring and Treatment System</h1>
+    <p class="jhead__lead">
+      ESP32 firmware for the capstone project &mdash; reading water temperature and turbidity,
+      then renewing the aquarium water automatically.
+    </p>
+  </div>
+</section>
+
+<section class="sec sec--cream">
+  <div class="wrap">
+    <div class="code">
+      <div class="code__head">
+        <span class="code__name">turbidity_dengan_relay.ino &middot; ESP32 / Arduino IDE</span>
+        <a class="code__dl" href="assets/code/aquarium-monitoring-esp32.ino" download>Download .ino <span aria-hidden="true">&#8599;</span></a>
+      </div>
+      <pre><code>#define BLYNK_TEMPLATE_ID &quot;TMPL6ytPpWbiz&quot;
+#define BLYNK_TEMPLATE_NAME &quot;Monitoring dan Treatment Aquarium&quot;
+#define BLYNK_AUTH_TOKEN &quot;YOUR_BLYNK_AUTH_TOKEN&quot;
+
+#include &lt;WiFi.h&gt;
+#include &lt;BlynkSimpleEsp32.h&gt;
+#include &lt;OneWire.h&gt;
+#include &lt;DallasTemperature.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+// WiFi Credentials
+char ssid[] = &quot;Agnesss&quot;;  // Ganti dengan SSID WiFi
+char pass[] = &quot;YOUR_WIFI_PASSWORD&quot;;  // Ganti dengan password WiFi
+
+// Pin Definitions
+#define SENSOR_PIN 34  // Pin untuk sensor turbidity
+#define RELAY1_PIN 4   // Pin untuk relay 1
+#define RELAY2_PIN 5   // Pin untuk relay 2
+#define LED_PIN 26     // Pin untuk LED indikator
+#define ONE_WIRE_BUS 14 // Pin untuk sensor suhu DS18B20
+
+// Variabel global
+float temperatureC;
+int ntu;
+int read_ADC;
+unsigned long previousMillis = 0;
+const long interval = 300;
+int currentDisplay = 0;
+
+// Inisialisasi LCD dan sensor suhu
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&amp;oneWire);
+
+// Pesan selamat datang untuk scrolling text
+String scrollingMessage = &quot;Sistem Monitoring dan Treatment Aquarium IoT&quot;;
+
+void setup() {
+  Serial.begin(9600);
+
+  // Inisialisasi LCD dan sensor
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+  sensors.begin();
+  
+  pinMode(SENSOR_PIN, INPUT);
+  pinMode(RELAY1_PIN, OUTPUT);
+  pinMode(RELAY2_PIN, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
+  
+  // Pastikan relay mati pada awal
+  digitalWrite(RELAY1_PIN, LOW);
+  digitalWrite(RELAY2_PIN, LOW);
+  digitalWrite(LED_PIN, LOW);
+
+  // Menyambungkan ke WiFi dan Blynk
+  Serial.println(&quot;Connecting to WiFi...&quot;);
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+
+  while (!Blynk.connected()) {
+    Serial.println(&quot;Connecting to Blynk...&quot;);
+    delay(1000);
+  }
+  Serial.println(&quot;Connected to Blynk!&quot;);
+}
+
+void loop() {
+  Blynk.run();
+
+  // Fungsi untuk scrolling text
+  scrollingText(scrollingMessage, 300);
+
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis &gt;= interval) {
+    previousMillis = currentMillis;
+    
+    // Membaca suhu
+    sensors.requestTemperatures();
+    temperatureC = sensors.getTempCByIndex(0);
+    
+    if (temperatureC != DEVICE_DISCONNECTED_C) {
+      Serial.print(&quot;Suhu: &quot;);
+      Serial.print(temperatureC);
+      Serial.println(&quot; C&quot;);
+      
+      Blynk.virtualWrite(V1, temperatureC);
+      
+      lcd.setCursor(0, 1);
+      lcd.print(&quot;Suhu: &quot;);
+      lcd.print(temperatureC);
+      lcd.print(&quot; C&quot;);
+    }
+
+    // Membaca turbidity
+    read_ADC = analogRead(SENSOR_PIN);
+    ntu = map(read_ADC, 1500, 2222, 300, 0);
+    if (ntu &lt; 0) ntu = 0;
+
+    Serial.print(&quot;Nilai ADC: &quot;);
+    Serial.print(read_ADC);
+    Serial.print(&quot; | NTU: &quot;);
+    Serial.println(ntu);
+    Blynk.virtualWrite(V2, ntu);
+
+    // Menampilkan informasi di LCD
+    lcd.setCursor(0, 1);
+    if (currentDisplay == 0) {
+      lcd.print(&quot;Keruh: &quot;);
+      lcd.print(ntu);
+      lcd.print(&quot; NTU &quot;);
+      currentDisplay = 1;
+    } else {
+      lcd.print(&quot;Suhu: &quot;);
+      lcd.print(temperatureC);
+      lcd.print(&quot; C   &quot;);
+      currentDisplay = 0;
+    }
+     if (temperatureC &lt;= 27) {
+        digitalWrite(LED_PIN, HIGH);
+      } else {
+        digitalWrite(LED_PIN, LOW);
+      }
+
+    // Mengontrol relay berdasarkan NTU
+    if (ntu &gt;= 250) {
+      Serial.println(&quot;Air Sangat Kotor!&quot;);
+
+      // Nyalakan Relay 1 Pompa 1 air terkuras
+      Serial.println(&quot;Relay 1 ON&quot;);
+      digitalWrite(RELAY1_PIN, HIGH);
+      delay(50000);
+      digitalWrite(RELAY1_PIN, LOW);
+      Serial.println(&quot;Relay 1 OFF&quot;);
+
+      // Nyalakan Relay 2 pompa 2 air terisi
+      Serial.println(&quot;Relay 2 ON&quot;);
+      digitalWrite(RELAY2_PIN, HIGH);
+      delay(50000);
+      digitalWrite(RELAY2_PIN, LOW);
+      Serial.println(&quot;Relay 2 OFF&quot;);
+    }
+    delay(1000);
+  }
+}
+
+// Fungsi untuk scrolling text
+void scrollingText(const String &amp;message, int delayTime) {
+  static int scrollIndex = 0;
+  int messageLength = message.length();
+  
+  lcd.setCursor(0, 0);  // Mulai dari baris pertama LCD
+  for (int i = 0; i &lt; 16; i++) {
+    lcd.print(message[(scrollIndex + i) % messageLength]);
+  }
+  scrollIndex++;
+  if (scrollIndex &gt;= messageLength) scrollIndex = 0;
+  delay(150);
+}
+</code></pre>
+    </div>
+
+    <ul class="jentry__tags code__tags">
+      <li>ESP32</li><li>DS18B20</li><li>Turbidity</li><li>Blynk</li><li>LCD I&sup2;C</li><li>Arduino IDE</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div class="foot__brand">
+      <span class="logo__mark">SS</span>
+      <div>
+        <b>Selmi Suryani</b>
+        <i>Source Code 2025</i>
+      </div>
+    </div>
+    <ul class="foot__nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="journal.html">Journal</a></li>
+      <li><a href="certificate.html">Certificate</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <span class="foot__cp">&copy; <span id="year">2026</span> Selmi Suryani</span>
+  </div>
+</footer>
+
+<script>document.documentElement.className += ' js';</script>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/journal.js"></script>
+</body>
+</html>

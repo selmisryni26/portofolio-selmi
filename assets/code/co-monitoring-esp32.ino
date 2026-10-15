@@ -6,7 +6,7 @@
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 16, 2);
 
 const char* ssid = "OPPO A31";
-const char* password = "halonisa";
+const char* password = "YOUR_WIFI_PASSWORD";
 // const char* mqtt_server = "broker.hivemq.com";
 const char* mqtt_server = "broker.emqx.io";
 const int mqtt_port = 1883;
