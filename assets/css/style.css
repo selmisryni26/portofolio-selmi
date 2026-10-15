@@ -295,7 +295,7 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 .awards .card--feature{grid-column:1/-1;}
 .card__grid{
   display:grid; grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
-  gap:32px; align-items:start;
+  gap:32px; align-items:stretch;
 }
 .card__gallery{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
 .card__gallery figure{
@@ -308,13 +308,13 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
   text-align:center; border-top:1px solid var(--line); background:var(--white);
 }
 .card__body{display:flex; flex-direction:column; gap:6px;}
-/* Baris lebar di dalam kartu unggulan — tangkapan layar dashboard & database */
-.card__wide{
-  grid-column:1/-1; margin-top:22px; padding-top:22px;
-  border-top:1px solid var(--line);
-}
+/* Kolom kiri: foto prototipe di atas, tangkapan layar ditempel ke dasar kolom
+   supaya batas bawahnya sejajar dengan baris tautan di kolom kanan. */
+.card__media-col{display:flex; flex-direction:column; gap:16px; min-width:0;}
+.card__shots{margin-top:auto;}
+/* Tangkapan layar di kolom kiri kartu unggulan */
 @media (max-width:660px){
-  .card__wide.gal--2{grid-template-columns:1fr;}
+  .card__shots.gal--2{grid-template-columns:1fr;}
 }
 .card__sub{
   font-family:var(--serif); font-size:1.02rem; font-weight:600;
