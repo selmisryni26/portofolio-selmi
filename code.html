@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>Source Code — Selmi Suryani</title>
+<meta name="description" content="ESP32 firmware for the IoT-based CO monitoring and control system, developed for the Capstone Project and awarded 1st Place in the Internet of Things category at FusionTech Challenge 2025." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23F6F1E6'/><text y='70' x='50' font-size='54' font-family='Georgia,serif' font-weight='bold' fill='%23C0693C' text-anchor='middle'>S</text></svg>" />
+<script>
+/* Terapkan tema sebelum halaman digambar, supaya tidak berkedip. */
+(function () {
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  } catch (e) {}
+})();
+</script>
+</head>
+<body class="page-journal">
+
+<header class="nav is-stuck" id="nav">
+  <div class="nav__in">
+    <a href="index.html" class="logo">
+      <span class="logo__mark">SS</span>
+      <span class="logo__txt">Selmi<span> Suryani</span></span>
+    </a>
+    <nav class="nav__links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#education">Education</a>
+      <a href="journal.html">Journal</a>
+      <a href="certificate.html">Certificate</a>
+    </nav>
+    <a href="index.html#contact" class="nav__cta">Get in Touch <span aria-hidden="true">&#8599;</span></a>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch to dark theme" title="Switch theme">
+      <span class="theme-btn__ic" aria-hidden="true">
+        <svg class="theme-btn__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/>
+        </svg>
+        <svg class="theme-btn__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/>
+        </svg>
+      </span>
+    </button>
+    <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<section class="jhead">
+  <div class="wrap">
+    <a href="index.html#projects" class="backlink">
+      <span aria-hidden="true">&#8592;</span> Back to portfolio
+    </a>
+    <p class="eyebrow">Source Code &mdash;</p>
+    <h1 class="jhead__title">IoT-Based CO Monitoring and Control System</h1>
+    <p class="jhead__lead">
+      ESP32 firmware for the capstone project &mdash; awarded First Place in the Internet of Things
+      category at FusionTech Challenge 2025.
+    </p>
+  </div>
+</section>
+
+<section class="sec sec--cream">
+  <div class="wrap">
+    <div class="code">
+      <div class="code__head">
+        <span class="code__name">cp3.ino &middot; ESP32 / Arduino IDE</span>
+        <a class="code__dl" href="assets/code/co-monitoring-esp32.ino" download>Download .ino <span aria-hidden="true">&#8599;</span></a>
+      </div>
+      <pre><code>#include &lt;WiFi.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+#include &lt;PubSubClient.h&gt;
+
+// Inisialisasi LCD I2C
+LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 16, 2);
+
+const char* ssid = &quot;OPPO A31&quot;;
+const char* password = &quot;halonisa&quot;;
+// const char* mqtt_server = &quot;broker.hivemq.com&quot;;
+const char* mqtt_server = &quot;broker.emqx.io&quot;;
+const int mqtt_port = 1883;
+
+// Topik MQTT
+const char* topic_publish = &quot;kel11/kadarCO&quot;; // Topik untuk mengirim pesan
+
+unsigned long previousMillis = 0;
+const long interval = 300;  // Interval pengiriman data
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+// Pesan scrolling untuk LCD
+String scrollingMessage = &quot;Monitoring dan Kendali Kadar CO  &quot;;
+
+// Fungsi untuk menghubungkan ke WiFi
+void setupWiFi() {
+  delay(10);
+  Serial.println(&quot;\nConnecting to WiFi...&quot;);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(&quot;.&quot;);
+  }
+  Serial.println(&quot;\nWiFi connected!&quot;);
+  Serial.print(&quot;IP address: &quot;);
+  Serial.println(WiFi.localIP());
+}
+
+// Fungsi untuk menghubungkan ke broker MQTT
+void reconnectMQTT() {
+  while (!client.connected()) {
+    Serial.println(&quot;Connecting to MQTT broker...&quot;);
+    if (client.connect(&quot;ESP32Client&quot;)) {
+      Serial.println(&quot;Connected to MQTT broker!&quot;);
+    } else {
+      Serial.print(&quot;Failed to connect, rc=&quot;);
+      Serial.print(client.state());
+      Serial.println(&quot;\nRetrying in 5 seconds...&quot;);
+      delay(5000);  // Tunggu sebelum mencoba lagi
+    }
+  }
+}
+
+// Inisialisasi PIN
+int Gas_analog = 34;
+int relaykip = 16;
+int relaypom = 17;
+
+void setup() {
+  Serial.begin(115200);
+  setupWiFi();
+  client.setServer(mqtt_server, mqtt_port);
+
+  lcd.init();  // Inisialisasi LCD
+  lcd.backlight();  // Menyalakan backlight LCD
+  lcd.clear();  // Menghapus tampilan LCD
+
+  pinMode(Gas_analog, INPUT);
+  pinMode(relaykip, OUTPUT);
+  pinMode(relaypom, OUTPUT);
+}
+
+void loop() {
+  int gassensorAnalog = analogRead(Gas_analog);
+
+  // Fungsi untuk scrolling text
+  scrollingText(scrollingMessage, 300);
+
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis &gt;= interval) {
+    previousMillis = currentMillis;
+
+    // Cek koneksi MQTT dan lakukan reconnect jika diperlukan
+    if (!client.connected()) {
+      reconnectMQTT();
+    }
+    client.loop();
+
+    // Mengonversi nilai sensor gas menjadi ppm
+    int ppm = map(gassensorAnalog, 0, 1023, 0, 1000);
+
+    // Menyiapkan payload yang akan dikirim
+    char payload1[50];
+    snprintf(payload1, sizeof(payload1), &quot;%d&quot;, ppm);  // Mengirimkan nilai ppm
+
+    // Mengirimkan data ke topik MQTT
+    Serial.print(&quot;Payload yang dikirim ke MQTT: &quot;);
+    Serial.println(payload1);
+    client.publish(topic_publish, payload1);
+
+    // Menampilkan data di LCD
+    lcd.clear();
+    lcd.setCursor(0, 0);  // Baris pertama untuk scrolling text
+    scrollingText(scrollingMessage, 300);
+
+    lcd.setCursor(0, 1);  // Baris kedua untuk nilai ppm
+    lcd.print(&quot;Kadar: &quot;);
+    lcd.print(ppm);
+    lcd.print(&quot; ppm&quot;);
+
+    // Pengaturan relay berdasarkan pembacaan sensor
+    if (gassensorAnalog &gt;= 200) {
+  Serial.println(&quot;Gas Terdeteksi (Tingkat Tinggi)&quot;);
+  digitalWrite(relaykip, HIGH); // Kipas menyala
+  digitalWrite(relaypom, HIGH); // Pompa menyala
+} else if (gassensorAnalog &gt; 100 &amp;&amp; gassensorAnalog &lt;=199) {
+  Serial.println(&quot;Gas Terdeteksi (Tingkat Rendah)&quot;);
+  digitalWrite(relaykip, HIGH); // Kipas menyala
+  digitalWrite(relaypom, LOW);  // Pompa mati
+} else {
+  Serial.println(&quot;No Gas&quot;);
+  digitalWrite(relaykip, LOW);  // Kipas mati
+  digitalWrite(relaypom, LOW);  // Pompa mati
+}
+  }
+
+  delay(200);  // Mengurangi jeda agar pengiriman data lebih cepat
+}
+
+// Fungsi untuk scrolling text
+void scrollingText(const String &amp;message, int delayTime) {
+  static int scrollIndex = 0;
+  int messageLength = message.length();
+
+  lcd.setCursor(0, 0);  // Mulai dari baris pertama LCD
+  for (int i = 0; i &lt; 16; i++) {
+    lcd.print(message[(scrollIndex + i) % messageLength]);
+  }
+  scrollIndex++;
+  if (scrollIndex &gt;= messageLength) scrollIndex = 0;
+  delay(delayTime);
+}
+</code></pre>
+    </div>
+
+    <ul class="jentry__tags code__tags">
+      <li>ESP32</li><li>MQ-135</li><li>MQTT</li><li>Node-RED</li><li>MySQL</li><li>Arduino IDE</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div class="foot__brand">
+      <span class="logo__mark">SS</span>
+      <div>
+        <b>Selmi Suryani</b>
+        <i>Source Code 2025</i>
+      </div>
+    </div>
+    <ul class="foot__nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="journal.html">Journal</a></li>
+      <li><a href="certificate.html">Certificate</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <span class="foot__cp">&copy; <span id="year">2026</span> Selmi Suryani</span>
+  </div>
+</footer>
+
+<script>document.documentElement.className += ' js';</script>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/journal.js"></script>
+</body>
+</html>

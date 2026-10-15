@@ -269,6 +269,27 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 .card__links{display:flex; flex-wrap:wrap; gap:8px; margin-top:auto; padding-top:4px;}
 .card__links .card__link{margin:0;}
 
+/* Halaman penampil kode sumber */
+.code{
+  background:var(--paper); border:1px solid var(--line);
+  border-radius:var(--r); overflow:hidden;
+}
+.code__head{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  flex-wrap:wrap; padding:13px 18px;
+  border-bottom:1px solid var(--line); background:var(--white);
+}
+.code__name{font-size:.84rem; color:var(--ink-2);}
+.code__dl{font-size:.82rem; font-weight:600; color:var(--terra); text-decoration:none;}
+.code__dl:hover{color:var(--terra-d); text-decoration:underline;}
+.code pre{
+  margin:0; padding:20px 22px; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  font-family:ui-monospace,SFMono-Regular,'Cascadia Mono',Consolas,'Courier New',monospace;
+  font-size:.82rem; line-height:1.66; color:var(--ink-2); tab-size:2;
+}
+.code pre code{white-space:pre; display:block; min-width:max-content;}
+.code__tags{margin-top:22px;}
+
 /* Kartu unggulan — proyek IoT yang meraih 1st Place: galeri foto,
    ringkasan proyek dan daftar alat & bahan. Lebar penuh satu baris. */
 .awards .card--feature{grid-column:1/-1;}
