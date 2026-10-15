@@ -268,6 +268,43 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
    dibuka lewat tautan (tidak ditampilkan sebagai gambar di kartu). */
 .card__links{display:flex; flex-wrap:wrap; gap:8px; margin-top:auto; padding-top:4px;}
 .card__links .card__link{margin:0;}
+
+/* Kartu unggulan — proyek IoT yang meraih 1st Place: galeri foto,
+   ringkasan proyek dan daftar alat & bahan. Lebar penuh satu baris. */
+.awards .card--feature{grid-column:1/-1;}
+.card__grid{
+  display:grid; grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  gap:32px; align-items:start;
+}
+.card__gallery{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.card__gallery figure{
+  margin:0; border-radius:var(--r-sm); overflow:hidden;
+  border:1px solid var(--line); background:var(--paper);
+}
+.card__gallery img{display:block; width:100%; height:auto;}
+.card__gallery figcaption{
+  padding:7px 10px; font-size:.7rem; line-height:1.3; color:var(--ink-3);
+  text-align:center; border-top:1px solid var(--line); background:var(--white);
+}
+.card__body{display:flex; flex-direction:column; gap:6px;}
+.card__sub{
+  font-family:var(--serif); font-size:1.02rem; font-weight:600;
+  letter-spacing:-.01em; color:var(--ink); margin:4px 0 0;
+}
+.card__text{font-size:.92rem; line-height:1.66; color:var(--ink-2); margin:8px 0 0;}
+.card__label{
+  font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); margin:14px 0 0;
+}
+.card__specs{list-style:none; margin:7px 0 0; padding:0; display:grid; gap:5px;}
+.card__specs li{position:relative; padding-left:15px; font-size:.86rem; line-height:1.5; color:var(--ink-2);}
+.card__specs li::before{
+  content:""; position:absolute; left:0; top:.58em;
+  width:5px; height:5px; border-radius:50%; background:var(--terra);
+}
+@media (max-width:880px){
+  .card__grid{grid-template-columns:1fr; gap:22px;}
+}
 .card{
   background:var(--white); border-radius:var(--r); padding:26px 28px;
   border:1px solid var(--line); transition:.26s;

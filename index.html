@@ -526,6 +526,48 @@
     </div>
 
     <div class="awards">
+      <article class="card card--plain card--feature">
+        <div class="card__grid">
+          <div class="card__gallery">
+            <figure>
+              <img src="assets/img/projects/iot-front.jpg" alt="The CO monitoring and control prototype, front view" loading="lazy">
+              <figcaption>Prototype — front view</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/img/projects/iot-top.jpg" alt="The CO monitoring and control prototype, top view" loading="lazy">
+              <figcaption>Prototype — top view</figcaption>
+            </figure>
+          </div>
+
+          <div class="card__body">
+            <span class="card__rank">1st Place</span>
+            <h4>Internet of Things</h4>
+            <p>“IoT Innovation to Improve Community Welfare”</p>
+            <span class="card__meta">FusionTech Challenge · 2025</span>
+
+            <p class="card__sub">IoT-Based CO Monitoring and Control System</p>
+            <p class="card__text">An IoT system that reads carbon monoxide (CO) levels in the air and brings them back down on its own. An MQ-135 gas sensor samples the air while a Wemos D1 R32 (ESP32) board publishes the readings over MQTT to a Node-RED dashboard and a MySQL database; a 16×2 LCD shows the live value on the device. Past 100 ppm a blower fan starts, and past 200 ppm a water pump feeds a mist sprinkler that scrubs the gas out of the air. In testing, running the fan and sprinkler together pulled CO down from 1,463 ppm to 79 ppm.</p>
+
+            <p class="card__label">Tools &amp; materials</p>
+            <ul class="card__specs">
+              <li>Wemos D1 R32 (ESP32) board and MQ-135 gas sensor</li>
+              <li>4-channel relay module and 16×2 I²C LCD</li>
+              <li>12 V DC water pump, mist sprinkler and CPU fan blower</li>
+              <li>One-layer PCB, acrylic housing, 12 V 2 A power adapter</li>
+            </ul>
+
+            <p class="card__label">Software</p>
+            <ul class="card__specs">
+              <li>Arduino IDE (C/C++), MQTT broker, Node-RED dashboard and MySQL</li>
+            </ul>
+
+            <div class="card__links">
+            <a class="card__link" href="assets/docs/certificates/fusiontech-2025-internet-of-things.jpg" target="_blank" rel="noopener">View certificate <span aria-hidden="true">↗</span></a>
+            <a class="card__link" href="assets/code/co-monitoring-esp32.ino" target="_blank" rel="noopener">View source code <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </div>
+      </article>
   <article class="card card--plain">
     <span class="card__rank">1st Place</span>
     <h4>Infographic</h4>
@@ -536,16 +578,7 @@
           <a class="card__link" href="assets/img/projects/infografis-4.jpg" target="_blank" rel="noopener">View poster <span aria-hidden="true">↗</span></a>
     </div>
   </article>
-  <article class="card card--plain">
-    <span class="card__rank">1st Place</span>
-    <h4>Internet of Things</h4>
-    <p>“IoT Innovation to Improve Community Welfare”</p>
-    <span class="card__meta">FusionTech Challenge · 2025</span>
-    <div class="card__links">
-          <a class="card__link" href="assets/docs/certificates/fusiontech-2025-internet-of-things.jpg" target="_blank" rel="noopener">View certificate <span aria-hidden="true">↗</span></a>
-          <a class="card__link" href="assets/img/projects/fusiontech-iot-2025.jpg" target="_blank" rel="noopener">View photo <span aria-hidden="true">↗</span></a>
-    </div>
-  </article>
+  
   <article class="card card--plain">
     <span class="card__rank">3rd Place</span>
     <h4>Infographic</h4>
