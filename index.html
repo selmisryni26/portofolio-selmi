@@ -409,33 +409,68 @@
     <article class="proj reveal" data-cat="capstone">
       <header class="proj__head">
         <div>
-          <h3>Capstone Project — Aquarium Monitoring &amp; Treatment</h3>
-          <p class="proj__meta">Capstone Project · 2024</p>
+          <h3>Capstone Project &mdash; Aquarium Monitoring &amp; Treatment</h3>
+          <p class="proj__meta">Capstone Project &middot; 2024</p>
         </div>
         <div>
           <p class="proj__formal">Aquarium Monitoring and Treatment System Based on the Internet of Things (IoT)</p>
-          <p class="proj__desc">Designing an IoT-based aquarium monitoring and treatment system — system functionality covers water temperature and turbidity monitoring, along with water condition control, all monitored through the Blynk app.</p>
+          <p class="proj__desc">An IoT system that watches aquarium water quality in real time and treats it on its own &mdash; reading water temperature and turbidity, reporting to the Blynk app, and renewing the water automatically when it turns dirty.</p>
         </div>
       </header>
+
+      <div class="proj__brief">
+        <div class="proj__col">
+          <p class="proj__label">How it works</p>
+          <ul class="proj__specs">
+            <li>Water temperature drops to 27 &deg;C or below &mdash; the LED indicator lights up</li>
+            <li>Turbidity reaches 250 NTU &mdash; the drain pump empties the dirty water, then the refill pump draws clean water back in</li>
+            <li>Readings alternate on a 16&times;2 LCD, while the Blynk dashboard shows the same values and their history</li>
+          </ul>
+
+          <p class="proj__label">Team</p>
+          <p class="proj__text">Built with Agnes Elandriyana Ekasiwi and M. Dahlan, supervised by Dodi Hariadi, S.T., M.Eng. &mdash; Computer Engineering, Universitas Teknologi Yogyakarta.</p>
+        </div>
+
+        <div class="proj__col">
+          <p class="proj__label">Tools &amp; materials</p>
+          <ul class="proj__specs">
+            <li>ESP32 microcontroller</li>
+            <li>DS18B20 water temperature sensor and turbidity sensor</li>
+            <li>4-channel relay module and two water pumps &mdash; one for draining, one for refilling</li>
+            <li>16&times;2 I&sup2;C LCD, LED indicator, jumper wires</li>
+            <li>Double-layer PCB, hose and 5 V adapter</li>
+          </ul>
+
+          <p class="proj__label">Software</p>
+          <ul class="proj__specs">
+            <li>Arduino IDE (C/C++) and the Blynk IoT platform</li>
+          </ul>
+
+          <p class="proj__label">Result</p>
+          <p class="proj__text">Across five test runs the system tracked 26.7&ndash;28.7 &deg;C and 13&ndash;506 NTU. Every time turbidity crossed 250 NTU the drain and refill pumps renewed the water; at 17 NTU they stayed off.</p>
+        </div>
+      </div>
 
       <div class="gal gal--strip">
         <figure class="shot">
           <img src="assets/img/projects/capstone-photo-1.jpg" alt="ESP32 microcontroller board with an LCD display" loading="lazy">
-          <span class="shot__open" aria-hidden="true">↗</span>
+          <span class="shot__open" aria-hidden="true">&#8599;</span>
         </figure>
         <figure class="shot">
           <img src="assets/img/projects/capstone-photo-2.jpg" alt="Four-channel relay module wiring" loading="lazy">
-          <span class="shot__open" aria-hidden="true">↗</span>
+          <span class="shot__open" aria-hidden="true">&#8599;</span>
         </figure>
         <figure class="shot">
           <img src="assets/img/projects/capstone-photo-3.jpg" alt="Aquarium prototype with water tank and pump setup" loading="lazy">
-          <span class="shot__open" aria-hidden="true">↗</span>
+          <span class="shot__open" aria-hidden="true">&#8599;</span>
         </figure>
         <figure class="shot">
           <img src="assets/img/projects/capstone-photo-4.jpg" alt="Blynk dashboard showing temperature and turbidity readings" loading="lazy">
-          <span class="shot__open" aria-hidden="true">↗</span>
+          <span class="shot__open" aria-hidden="true">&#8599;</span>
         </figure>
       </div>
+
+      <a class="card__link proj__report" href="assets/docs/Capstone-Aquarium-Monitoring-Treatment.pdf" target="_blank" rel="noopener">View full report <span aria-hidden="true">&#8599;</span></a>
     </article>
 
     <article class="proj reveal" data-cat="iot">
