@@ -264,6 +264,15 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 /* ── Cards ───────────────────────────────────────── */
 /* Poster penghargaan ditampilkan sekecil thumbnail sertifikat:
    kotak lanskap 4:3, poster utuh di dalamnya (tidak dipotong). */
+/* Foto kegiatan di kartu penghargaan (lanskap, tanpa dipotong berarti) */
+.card__photo{
+  margin:0 0 10px; border-radius:var(--r-sm); overflow:hidden;
+  border:1px solid var(--line); background:var(--paper);
+}
+.card__photo img{
+  display:block; width:100%; aspect-ratio:16/9; object-fit:cover; object-position:50% 38%;
+}
+
 .card__poster{
   margin:0 0 12px; border-radius:var(--r-sm); overflow:hidden;
   border:1px solid var(--line); background:var(--paper);
