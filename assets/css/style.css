@@ -215,10 +215,10 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 
 /* ══════════ HERO ══════════ */
 .hero{padding:clamp(120px,17vh,168px) 0 clamp(56px,9vh,90px);}
-.hero__grid{
-  display:grid; grid-template-columns:1fr;
-  align-items:center;
-}
+/* Tanpa foto, blok teks dipusatkan dan dilebarkan supaya halaman
+   pertama tidak terlihat kosong di sebelah kanan. */
+.hero__grid{display:grid; grid-template-columns:1fr;}
+.hero__copy{max-width:880px; margin-inline:auto; text-align:center;}
 .hello{
   display:inline-block; position:relative; font-size:.8rem; font-weight:700;
   letter-spacing:.15em; text-transform:uppercase; color:var(--ink-3); margin:0 0 16px;
@@ -234,11 +234,11 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 }
 .hero__role{
   font-family:var(--serif); font-weight:500; font-size:clamp(1.06rem,2.3vw,1.45rem);
-  line-height:1.4; letter-spacing:-.015em; color:var(--ink); margin:0 0 18px; max-width:24ch;
+  line-height:1.4; letter-spacing:-.015em; color:var(--ink); margin:0 auto 18px; max-width:34ch;
 }
 .hero__role em{font-style:italic; color:var(--terra);}
-.hero__lead{color:var(--ink-2); max-width:52ch; margin:0 0 28px;}
-.hero__btns{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:26px;}
+.hero__lead{color:var(--ink-2); max-width:58ch; margin:0 auto 28px;}
+.hero__btns{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:26px; justify-content:center;}
 
 .status{
   display:inline-flex; align-items:center; gap:9px; font-size:.82rem; color:var(--ink-2);
@@ -258,6 +258,18 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 .head--center .eyebrow{margin-bottom:12px;}
 
 /* ── Cards ───────────────────────────────────────── */
+.card__poster{
+  margin:0 0 10px; border-radius:var(--r-sm); overflow:hidden;
+  border:1px solid var(--line); background:var(--paper);
+}
+.card__poster img{
+  display:block; width:100%; aspect-ratio:566/800; object-fit:cover; object-position:top center;
+}
+.card__poster figcaption{
+  padding:8px 10px; font-size:.72rem; color:var(--ink-3);
+  text-align:center; border-top:1px solid var(--line);
+}
+
 .card{
   background:var(--white); border-radius:var(--r); padding:26px 28px;
   border:1px solid var(--line); transition:.26s;
