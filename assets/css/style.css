@@ -264,26 +264,20 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 /* ── Cards ───────────────────────────────────────── */
 /* Poster penghargaan ditampilkan sekecil thumbnail sertifikat:
    kotak lanskap 4:3, poster utuh di dalamnya (tidak dipotong). */
-/* Foto kegiatan di kartu penghargaan (lanskap, tanpa dipotong berarti) */
-.card__photo{
-  margin:0 0 10px; border-radius:var(--r-sm); overflow:hidden;
-  border:1px solid var(--line); background:var(--paper);
-}
-.card__photo img{
-  display:block; width:100%; aspect-ratio:16/9; object-fit:cover; object-position:50% 38%;
-}
-
-.card__poster{
+/* Media di kartu penghargaan — persis seperti thumbnail di halaman
+   Certificate: gambar MENGISI PENUH bingkai 4:3, tanpa sisa gelap. */
+.card__media{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 12px; align-items:start;}
+.card__poster, .card__photo{
   margin:0 0 12px; border-radius:var(--r-sm); overflow:hidden;
   border:1px solid var(--line); background:var(--paper);
 }
-.card__poster img{
-  display:block; width:100%; aspect-ratio:4/3; object-fit:contain;
-  background:var(--paper); padding:10px;
+.card__media .card__poster, .card__media .card__photo{margin:0;}
+.card__poster img, .card__photo img{
+  display:block; width:100%; aspect-ratio:4/3; object-fit:cover; object-position:top center;
 }
-.card__poster figcaption{
-  padding:8px 10px; font-size:.72rem; color:var(--ink-3);
-  text-align:center; border-top:1px solid var(--line);
+.card__poster figcaption, .card__photo figcaption{
+  padding:7px 10px; font-size:.7rem; line-height:1.3; color:var(--ink-3);
+  text-align:center; border-top:1px solid var(--line); background:var(--white);
 }
 
 .card{
