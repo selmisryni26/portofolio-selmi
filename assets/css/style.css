@@ -370,11 +370,16 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 .about__stats span{font-size:.78rem; color:var(--ink-3); line-height:1.35;}
 
 /* ══════════ EDUCATION ══════════ */
-.edu{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:34px;}
+/* Kartu pendidikan — sengaja dibuat sedang, tidak memenuhi lebar halaman */
+.edu{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:30px; max-width:920px;}
+.edu .card{padding:20px 22px; border-radius:var(--r-sm);}
 .edu .card h3{
   font-family:var(--serif); font-weight:600; letter-spacing:-.02em;
-  font-size:clamp(1.06rem,2.2vw,1.3rem); margin:0 0 4px;
+  font-size:clamp(.98rem,1.8vw,1.12rem); margin:0 0 3px;
 }
+.edu .tag{margin-bottom:10px;}
+.edu .card__score{margin-top:10px;}
+.edu .card__score b{font-size:1.4rem;}
 .card__meta{font-size:.82rem; color:var(--ink-3); margin:0;}
 
 /* Tautan sertifikat di dalam kartu penghargaan */
