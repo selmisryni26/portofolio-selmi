@@ -370,16 +370,25 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 .about__stats span{font-size:.78rem; color:var(--ink-3); line-height:1.35;}
 
 /* ══════════ EDUCATION ══════════ */
-/* Kartu pendidikan — sengaja dibuat sedang, tidak memenuhi lebar halaman */
-.edu{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:30px; max-width:920px;}
-.edu .card{padding:20px 22px; border-radius:var(--r-sm);}
-.edu .card h3{
-  font-family:var(--serif); font-weight:600; letter-spacing:-.02em;
-  font-size:clamp(.98rem,1.8vw,1.12rem); margin:0 0 3px;
+/* Kartu pendidikan — dibuat kecil & tenang supaya tidak menyita perhatian.
+   Semua aturan di-scope ke .edu agar bagian lain tidak ikut berubah. */
+.edu{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:26px; max-width:720px;}
+.edu .card{
+  padding:14px 16px; border-radius:10px;
+  border-width:1px; box-shadow:none;
 }
-.edu .tag{margin-bottom:10px;}
-.edu .card__score{margin-top:10px;}
-.edu .card__score b{font-size:1.4rem;}
+.edu .card h3{
+  font-family:var(--serif); font-weight:600; letter-spacing:-.015em;
+  font-size:clamp(.9rem,1.5vw,.98rem); margin:0 0 2px;
+}
+.edu .tag{
+  font-size:.63rem; letter-spacing:.07em; padding:3px 10px;
+  margin-bottom:7px; background:transparent; border:1px solid var(--line-2);
+}
+.edu .card__meta{font-size:.76rem;}
+.edu .card__score{margin-top:7px;}
+.edu .card__score b{font-size:1.15rem;}
+.edu .card__score span{font-size:.72rem;}
 .card__meta{font-size:.82rem; color:var(--ink-3); margin:0;}
 
 /* Tautan sertifikat di dalam kartu penghargaan */
