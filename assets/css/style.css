@@ -672,6 +672,8 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 .jentry{background:var(--white); border:1px solid var(--line); border-radius:var(--r);
   padding:clamp(26px,4vw,44px);}
 .jentry__head{padding-bottom:20px; margin-bottom:22px; border-bottom:1px solid var(--line);}
+/* Beberapa entri mingguan menumpuk dalam satu bulan */
+.jpanel .jentry + .jentry{margin-top:22px;}
 .jentry__date{
   display:inline-block; font-size:.74rem; font-weight:700; letter-spacing:.11em;
   text-transform:uppercase; color:var(--terra); margin-bottom:10px;
