@@ -372,7 +372,14 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 /* ══════════ EDUCATION ══════════ */
 /* Kartu pendidikan — dibuat kecil & tenang supaya tidak menyita perhatian.
    Semua aturan di-scope ke .edu agar bagian lain tidak ikut berubah. */
-.edu{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:26px; max-width:720px;}
+/* Judul di kiri, dua kartu pendidikan di kanan — satu baris,
+   supaya tidak ada ruang kosong di kanan dan tidak ada blok menggantung. */
+.edu-band{
+  display:grid; grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:18px clamp(22px,4vw,48px); align-items:center; margin-bottom:32px;
+}
+.edu-band .head{margin-bottom:0; max-width:none;}
+.edu{display:grid; grid-template-columns:repeat(2,1fr); gap:12px;}
 .edu .card{
   padding:14px 16px; border-radius:10px;
   border-width:1px; box-shadow:none;
@@ -799,6 +806,8 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
   .hero__grid{grid-template-columns:1fr; gap:34px;}
     .about{grid-template-columns:1fr;}
   .about__stats{grid-template-columns:1fr;}
+  .edu-band{grid-template-columns:1fr; align-items:start;}
+  .edu-band .head{margin-bottom:18px;}
   .edu,.awards{grid-template-columns:1fr;}
   .skills{grid-template-columns:1fr;}
   .proj__head{grid-template-columns:1fr;}
