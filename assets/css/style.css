@@ -647,7 +647,7 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 
 /* ══════════ JOURNAL PAGE (journal.html) ══════════ */
 .page-journal .nav{padding:10px 0;}
-.jhead{padding:clamp(96px,14vh,150px) 0 clamp(20px,3vh,34px);}
+.jhead{padding:clamp(96px,14vh,150px) 0 clamp(10px,1.4vh,16px);}
 .backlink{
   display:inline-flex; align-items:center; gap:8px; margin-bottom:22px;
   font-size:.85rem; font-weight:600; color:var(--ink-3);
@@ -661,7 +661,7 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 }
 .jhead__lead{margin:14px 0 0; color:var(--ink-2); font-size:1.02rem; max-width:56ch;}
 /* jarak tab ke garis pemisah di atasnya dirapatkan */
-.jsec{border-top:1px solid var(--line); padding-top:clamp(18px,2.6vh,26px);}
+.jsec{border-top:1px solid var(--line); padding-top:clamp(10px,1.4vh,14px);}
 
 /* ══════════ JOURNAL ══════════ */
 .head__sub{margin:12px 0 0; color:var(--ink-3); font-size:.94rem; max-width:56ch;}
@@ -676,7 +676,7 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
   background:var(--white); border:1px solid var(--line-2); color:var(--ink-2);
   transition:.22s; min-width:0;
 }
-.jtab b{font-family:var(--serif); font-weight:600; font-size:.84rem; line-height:1.3; letter-spacing:-.01em;}
+.jtab b{font-family:var(--serif); font-weight:600; font-size:.8rem; line-height:1.28; letter-spacing:-.01em;}
 .jtab span{font-size:.7rem; color:var(--ink-3); letter-spacing:.06em; text-transform:uppercase;}
 .jtab:hover{border-color:var(--terra); color:var(--terra);}
 .jtab:hover span{color:var(--terra);}
