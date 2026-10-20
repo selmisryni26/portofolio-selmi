@@ -141,6 +141,7 @@ button{font-family:inherit;}
   display:inline-flex; align-items:center; gap:9px; padding:13px 26px; border-radius:100px;
   font-size:.89rem; font-weight:600; transition:.24s; border:1.5px solid transparent;
 }
+.btn:active{transform:translateY(0) scale(.97);}
 .btn--solid{background:var(--terra); color:var(--on-terra); box-shadow:0 8px 20px rgba(192,105,60,.24);}
 .btn--solid:hover{background:var(--terra); color:var(--on-terra); transform:translateY(-2px); box-shadow:0 12px 26px rgba(192,105,60,.32);}
 .btn--solid span{transition:transform .24s;}
