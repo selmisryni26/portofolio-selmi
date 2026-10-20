@@ -665,21 +665,24 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 /* ══════════ JOURNAL ══════════ */
 .head__sub{margin:12px 0 0; color:var(--ink-3); font-size:.94rem; max-width:56ch;}
 
+/* 7 periode -> 4 di baris pertama, 3 di baris kedua */
 .jbar{
-  display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px;
+  display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:8px; margin-bottom:22px;
 }
 .jtab{
-  display:flex; flex-direction:column; align-items:center; gap:1px;
-  padding:10px 20px; border-radius:12px; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  padding:10px 12px; border-radius:12px; cursor:pointer; text-align:center;
   background:var(--white); border:1px solid var(--line-2); color:var(--ink-2);
-  transition:.22s; min-width:96px;
+  transition:.22s; min-width:0;
 }
-.jtab b{font-family:var(--serif); font-weight:600; font-size:.92rem; letter-spacing:-.01em;}
+.jtab b{font-family:var(--serif); font-weight:600; font-size:.84rem; line-height:1.3; letter-spacing:-.01em;}
 .jtab span{font-size:.7rem; color:var(--ink-3); letter-spacing:.06em; text-transform:uppercase;}
 .jtab:hover{border-color:var(--terra); color:var(--terra);}
 .jtab:hover span{color:var(--terra);}
 .jtab.is-on{background:var(--terra); border-color:var(--terra); color:var(--on-terra); box-shadow:0 8px 20px rgba(192,105,60,.22);}
 .jtab.is-on span{color:color-mix(in srgb, var(--on-terra) 78%, transparent);}
+@media (max-width:980px){ .jbar{grid-template-columns:repeat(2, minmax(0,1fr));} }
+@media (max-width:560px){ .jbar{grid-template-columns:1fr;} .jtab b{font-size:.9rem;} }
 
 .jpanel{display:none;}
 .jpanel.is-on{display:block; animation:fadeUp .38s cubic-bezier(.2,.7,.3,1) both;}
