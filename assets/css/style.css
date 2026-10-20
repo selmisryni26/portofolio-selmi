@@ -733,6 +733,9 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
 .cta__text .h2{margin-bottom:14px;}
 .cta__lead{color:var(--ink-2); margin:0 0 26px; max-width:46ch;}
 .cta__btns{display:flex; flex-wrap:wrap; gap:12px;}
+.cta__alt{margin:14px 0 0; font-size:.82rem; color:var(--ink-3);}
+.cta__alt a{color:var(--terra); text-decoration:none; font-weight:600;}
+.cta__alt a:hover{text-decoration:underline;}
 .cta__list{display:grid; gap:12px;}
 .cta__list li{
   display:flex; align-items:center; gap:14px; background:var(--cream);
