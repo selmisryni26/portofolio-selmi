@@ -660,7 +660,8 @@ html[data-theme="light"] .theme-btn__moon{opacity:0; transform:rotate(-35deg) sc
   font-size:clamp(2rem,5vw,3.4rem); margin:0;
 }
 .jhead__lead{margin:14px 0 0; color:var(--ink-2); font-size:1.02rem; max-width:56ch;}
-.jsec{border-top:1px solid var(--line);}
+/* jarak tab ke garis pemisah di atasnya dirapatkan */
+.jsec{border-top:1px solid var(--line); padding-top:clamp(18px,2.6vh,26px);}
 
 /* ══════════ JOURNAL ══════════ */
 .head__sub{margin:12px 0 0; color:var(--ink-3); font-size:.94rem; max-width:56ch;}
